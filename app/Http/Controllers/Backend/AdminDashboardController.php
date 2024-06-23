@@ -11,7 +11,7 @@ class AdminDashboardController extends Controller
 
     function __construct()
     {
-        $this->middleware(['role:superadmin']);
+        // $this->middleware(['role:superadmin']);
     }
 
     public function dashboard()

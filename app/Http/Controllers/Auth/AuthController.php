@@ -19,26 +19,26 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-            $credentials = $request->validate([
-                'mobile' => ['required', 'exists:users,mobile', 'regex:/^[0-9]{10}$/'],
-                'password'    => ['required']
-            ],[
-                'mobile.exists' => 'Invalid Mobile/Password'
-            ]);
-            $user = User::where('mobile', $request->mobile)->first();
-            if (!$user) {
-                NotificationHelper::errorResponse('No user found!');
-                return back();
-            }
+        $credentials = $request->validate([
+            'email' => ['required', 'exists:users,email', 'regex:/(.+)@(.+)\.(.+)/i'],
+            'password'    => ['required']
+        ], [
+            'email.exists' => 'Invalid Email/Password'
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            NotificationHelper::errorResponse('No user found!');
+            return back();
+        }
 
         if (!Hash::check($request->password, $user->password)) {
-                NotificationHelper::errorResponse('Password is incorrect!');
-                return back();
-            }
+            NotificationHelper::errorResponse('Password is incorrect!');
+            return back();
+        }
 
-            Auth::loginUsingId($user->id);
-            NotificationHelper::successResponse('You are logged In!');
-            return redirect()->route('user.dashboard');
+        Auth::loginUsingId($user->id);
+        NotificationHelper::successResponse('You are logged In!');
+        return redirect()->route('user.dashboard');
     }
 
     public function register(UserRegisterRequest $request)
@@ -72,7 +72,7 @@ class AuthController extends Controller
 
     public function adminLogin()
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $user = Auth::user();
             if (!$user->hasRole(['superadmin'])) {
                 NotificationHelper::errorResponse('User does not have required permission to login!');
@@ -92,12 +92,12 @@ class AuthController extends Controller
             NotificationHelper::errorResponse('User does not have required permission to login!');
             return back();
         }
-    
+
         if (Auth::attempt($credentials)) {
             NotificationHelper::successResponse("Admin logged in successfully");
             return redirect()->route('admin.dashboard');
         }
-    
+
         NotificationHelper::errorResponse('Invalid credentials!');
         return back()->withInput();
     }
