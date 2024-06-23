@@ -12,7 +12,7 @@
                         <p>Lottery players can play Virginia Lottery games online from anywhere in Virginia on a phone, tablet or computer. </p>
                         <ul class="importants-links">
                             <li class="single-link">
-                                <a href="#0">policy</a>
+                                <a href="#0">git</a>
                             </li>
                             <li class="single-link">
                                 <a href="#0">Terms</a>
