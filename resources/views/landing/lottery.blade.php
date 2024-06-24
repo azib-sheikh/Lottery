@@ -344,7 +344,7 @@
                             </div>
                             <div class="picking-number-final-step">
                                 <div class="part-text">
-                                    <p><span class="b-txt">Note :</span>  Problem set compensation the harmonics, understood. Hundreds times,<br/> of until they employed sure a behind boundless their for.</p>
+                                    <p><span class="b-txt">Note :</span> Problem set compensation the harmonics, understood. Hundreds times,<br /> of until they employed sure a behind boundless their for.</p>
                                 </div>
                                 <div class="part-btn">
                                     <a class='btn-pok' href='lotteries.html'>Continue to cart <i class="fa-solid fa-angle-right"></i></a>
@@ -387,7 +387,7 @@
                                                 <img src="assets/img/lottery/winner-3.jpg" alt="">
                                             </div>
                                             <div class="part-text">
-                                                <p><span class="user-name">Rebecca Gaby</span>  has won 13 minutes ago.</p>
+                                                <p><span class="user-name">Rebecca Gaby</span> has won 13 minutes ago.</p>
                                                 <ul>
                                                     <li class="plaing-stats">
                                                         <span class="ps-title">Match :</span>
@@ -416,7 +416,7 @@
                                                 <img src="assets/img/lottery/winner-2.jpg" alt="">
                                             </div>
                                             <div class="part-text">
-                                                <p><span class="user-name">Summer Colson</span>  has won 3 months ago.</p>
+                                                <p><span class="user-name">Summer Colson</span> has won 3 months ago.</p>
                                                 <ul>
                                                     <li class="plaing-stats">
                                                         <span class="ps-title">Match :</span>
@@ -442,7 +442,7 @@
                                                 <img src="assets/img/lottery/winner-4.jpg" alt="">
                                             </div>
                                             <div class="part-text">
-                                                <p><span class="user-name">Kai Dellit</span>  has won 7 months ago.</p>
+                                                <p><span class="user-name">Kai Dellit</span> has won 7 months ago.</p>
                                                 <ul>
                                                     <li class="plaing-stats">
                                                         <span class="ps-title">Match :</span>
@@ -474,8 +474,8 @@
                             <div class="lottery-info">
                                 <div class="part-text">
                                     <h4 class="title">What is super enaLotto?</h4>
-                                    <p>EoMillions GO! is a Quick Draw lottery-style game based on the famous European lottery. 
-                                    The rules of the game are the same as those of the original lottery but the draw results are determined by a random number generator (RNG). Unlike the EuroMillions lottery with its two draws a week, EuroMillions GO! draws take place every hour, every day of the week!</p>
+                                    <p>EoMillions GO! is a Quick Draw lottery-style game based on the famous European lottery.
+                                        The rules of the game are the same as those of the original lottery but the draw results are determined by a random number generator (RNG). Unlike the EuroMillions lottery with its two draws a week, EuroMillions GO! draws take place every hour, every day of the week!</p>
                                 </div>
                                 <div class="middle-part-elem">
                                     <div class="part-info">
@@ -530,8 +530,8 @@
                                 </div>
                                 <div class="part-text">
                                     <h4 class="title">How to play EuroMillions GO!</h4>
-                                    <p>EoMillions GO! is a Quick Draw lottery-style game based on the famous European lottery. 
-                                        The rules of the game are the same as those of the original lottery but the draw results are determined by a random number generator (RNG). Unlike the EuroMillions lottery with its two draws a week, 
+                                    <p>EoMillions GO! is a Quick Draw lottery-style game based on the famous European lottery.
+                                        The rules of the game are the same as those of the original lottery but the draw results are determined by a random number generator (RNG). Unlike the EuroMillions lottery with its two draws a week,
                                         EuroMillions GO! draws take place every hour, every day of the week!</p>
                                 </div>
                             </div>
