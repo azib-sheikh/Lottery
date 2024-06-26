@@ -43,6 +43,17 @@ Route::get('login', function () {
 Route::get('register', function () {
     return view('auth.register');
 })->name('auth.register');
+Route::get('/checkout', function () {
+    return view('landing.checkout');
+})->name('landing.checkout');
+
+Route::group(['middleware' => ['guest']], function () {
+
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::get('login', [AuthController::class, 'adminLogin'])->name('login');
+        Route::post('login/post', [AuthController::class, 'adminLoginPost'])->name('login.post');
+    });
+});
 
 
 Route::prefix('auth')->group(function () {
@@ -55,10 +66,10 @@ Route::prefix('auth')->group(function () {
     /**
      * Admin Authentication routes
      */
-    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-        Route::get('login', [AuthController::class, 'adminLogin'])->name('login');
-        Route::post('login/post', [AuthController::class, 'adminLoginPost'])->name('login.post');
-    });
+    // Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    //     Route::get('login', [AuthController::class, 'adminLogin'])->name('login');
+    //     Route::post('login/post', [AuthController::class, 'adminLoginPost'])->name('login.post');
+    // });
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'role:user']], function () {
@@ -72,7 +83,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
     Route::group(['prefix' => 'lottery', 'as' => 'lottery.'], function () {
         Route::get('/', [UserLotteryController::class, 'index'])->name('index');
         Route::get('/chooseNumbers/{lotteryId}', [UserLotteryController::class, 'chooseNumbers'])->name('chooseNumbers');
-        Route::post('/checkout',[UserLotteryController::class, 'checkout'])->name('checkout');
+        Route::post('/checkout', [UserLotteryController::class, 'checkout'])->name('checkout');
         Route::post('/saveChosenNumbers', [UserLotteryController::class, 'saveChosenNumbers'])->name('saveChosenNumbers');
         Route::get('/showChosenNumbers/{lotteryId}', [UserLotteryController::class, 'showChosenNumbers'])->name('showChosenNumbers');
     });
@@ -87,11 +98,13 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
  * Admin panel routes
  */
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'role:superadmin']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'role:superadmin|admin']], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
         Route::get('/', [BackendUserController::class, 'index'])->name('index');
+        Route::get('/create', [BackendUserController::class, 'CreateUser'])->name('create');
+        Route::post('/store', [BackendUserController::class, 'StoreUser'])->name('store');
     });
 
     Route::group(['prefix' => 'lotteryMaster', 'as' => 'lotteryMaster.'], function () {

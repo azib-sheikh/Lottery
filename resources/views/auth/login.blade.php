@@ -40,15 +40,19 @@
                             @csrf
                             <div class="row">
                                 @if($errors->any())
-                                    {!! implode('', $errors->all('<span class="text text-danger text-center">:message</span>')) !!}
-                                @endif    
-                                <div class="col-xl-12">
+                                {!! implode('', $errors->all('<span class="text text-danger text-center">:message</span>')) !!}
+                                @endif
+                                {{--<div class="col-xl-12">
                                     <label for="mobile" class="form-label">Mobile Number</label>
                                     <input type="text" name="mobile" id="mobile" placeholder="Ex: 1234567890">
+                                </div>--}}
+                                <div class="col-xl-12">
+                                    <label for="mobile" class="form-label">Email</label>
+                                    <input type="email" name="email" id="email" placeholder="example@xyz.com">
                                 </div>
                                 <div class="col-xl-12">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" name="password" id="password" >
+                                    <input type="password" name="password" id="password">
                                 </div>
                             </div>
                             <div class="part-submit">
@@ -56,7 +60,8 @@
                                     sign In <i class="fa-solid fa-angle-right"></i>
                                 </button>
                                 <p>No account yet in Poklotto?
-                                    <a class='reg-link' href='{{ route('auth.register') }}'>Register</a> here to signup.</p>
+                                    <a class='reg-link' href='{{ route('auth.register') }}'>Register</a> here to signup.
+                                </p>
                             </div>
                         </form>
                     </div>
