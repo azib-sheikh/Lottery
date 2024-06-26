@@ -43,6 +43,9 @@ Route::get('login', function () {
 Route::get('register', function () {
     return view('auth.register');
 })->name('auth.register');
+Route::get('/checkout', function () {
+    return view('landing.checkout');
+})->name('landing.checkout');
 
 Route::group(['middleware' => ['guest']], function () {
 
