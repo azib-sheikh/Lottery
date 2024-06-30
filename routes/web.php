@@ -23,6 +23,7 @@ use App\Http\Controllers\User\TransactionController as UserTransactionController
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/lottery-details-ajax', [HomeController::class, 'lottery_details_ajax'])->name('home.lottery_details_ajax');
 
 Route::get('/about-us', function () {
     return view('landing.about-us');

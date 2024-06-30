@@ -1,35 +1,39 @@
 $(document).ready(function ($) {
     // picking number of Five
-    var singleNum = $(".number-box.common");
+    var singleNum = $(".number-box.common").find(".single-number");
     var singleNum2 = $(".number-box.special").find(".single-number");
 
     /**
      * Code added by Ashutosh
      */
-    var lotteryNumbers = "";
-    var checkedWinningNumber = "";
+    var lotteryNumbers = [];
+    var lotteryName =
+        "{{ isset($lottery) && $lottery->lotteryMaster ? $lottery->lotteryMaster->lottery_name : '' }}";
     $(singleNum).on("click", function () {
-        var checkedVals = $(".lotteryNumbers:checked")
-            .map(function () {
-                return this.value;
-            })
-            .get();
-        var this_btn_number = checkedVals.join(",");
-        // var singleNumLength = $(".number-box.common").find(
-        //     ".single-number.selected"
-        // ).length;
         var singleNumLength = $(".number-box.common").find(
-            ".lotteryNumbers:checked"
+            ".single-number.selected"
         ).length;
-        // var this_btn_number = parseInt($(this).text());
-        lotteryNumbers.length = 0;
-        lotteryNumbers = this_btn_number;
-        console.log(lotteryNumbers);
-    });
+        var this_btn_number = parseInt($(this).text());
 
-    $("#lotteryWinningAmountArray").on("click", function () {
-        checkedWinningNumber = $(".winning-number:checked").val();
-        console.log(checkedWinningNumber);
+        if ($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+            $(".result-number-palate")
+                .find("#" + this_btn_number)
+                .remove();
+        } else {
+            if (singleNumLength < 5) {
+                $(this).addClass("selected");
+                $(".result-number-palate").append(
+                    "<button class='single-number selected' id='" +
+                        this_btn_number +
+                        "'>" +
+                        $(this).text() +
+                        "</button>"
+                );
+                lotteryNumbers.push(this_btn_number);
+                console.log(lotteryNumbers);
+            }
+        }
     });
 
     // picking number of OneSpecial
@@ -217,16 +221,9 @@ $(document).ready(function ($) {
 
     $("#continueToCart").click(function (e) {
         e.preventDefault();
-        var lotteryId = $("#set_lottery_id").val();
         if (lotteryNumbers.length <= 0) {
             alert("Please choose numbers");
             location.reload();
-            return false;
-        }
-        if (checkedWinningNumber.length <= 0) {
-            alert("Please choose winning numbers");
-            location.reload();
-            return false;
         }
         // AJAX request to save lotteryNumbers to session
         $.ajax({
@@ -234,21 +231,13 @@ $(document).ready(function ($) {
             method: "POST",
             data: {
                 lotteryNumbers: lotteryNumbers,
-                lotteryId: lotteryId,
-                checkedWinningNumber: checkedWinningNumber,
+                lotteryId: "{{ $lottery->id }}",
+                lotteryMasterId: "{{ $lottery->lottery_master_id }}",
             },
             success: function (response) {
-                cartStatus = response.cartStatus;
-                if (cartStatus == "success") {
-                    alert("Lottery numbers Added to cart");
-                    location.reload();
-                    // Redirect or do other actions as needed
-                }
-                if (cartStatus == "error") {
-                    alert("login first");
-                    location.reload();
-                    // Redirect or do other actions as needed
-                }
+                alert("Lottery numbers Added to cart");
+                location.reload();
+                // Redirect or do other actions as needed
             },
             error: function (xhr, status, error) {
                 // Handle error response

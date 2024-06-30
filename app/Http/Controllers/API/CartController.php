@@ -3,19 +3,36 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Cart;
 
 class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
-        $lotteryNumbers = $request->input('lotteryNumbers');
+        $user = Auth::user();
+        if ($user) {
+            $lotteryNumbers = $request->input('lotteryNumbers');
+            $lotteryId = $request->input('lotteryId');
+            $checkedWinningNumber = $request->input('checkedWinningNumber');
 
-        // Add item to cart in session
-        $cart = session('cart', []);
-        $cart[] = $lotteryNumbers;
-        session(['cart' => $cart]);
+            $Cart = new Cart();
 
-        return response()->json(['message' => 'Item added to cart']);
+
+            return response()->json(
+                [
+                    'cartStatus' => 'success',
+                    'message' => 'Item added to cart'
+                ]
+            );
+        } else {
+            return response()->json(
+                [
+                    'cartStatus' => 'error',
+                    'message' => 'Item added to cart'
+                ]
+            );
+        }
     }
 }
