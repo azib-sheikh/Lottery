@@ -217,6 +217,7 @@ $(document).ready(function ($) {
 
     $("#continueToCart").click(function (e) {
         e.preventDefault();
+        var csrf = $("meta[name='csrf-token']").attr("content");
         var lotteryId = $("#set_lottery_id").val();
         if (lotteryNumbers.length <= 0) {
             alert("Please choose numbers");
@@ -230,9 +231,10 @@ $(document).ready(function ($) {
         }
         // AJAX request to save lotteryNumbers to session
         $.ajax({
-            url: "api/cart/add",
+            url: "cart/add",
             method: "POST",
             data: {
+                _token: csrf,
                 lotteryNumbers: lotteryNumbers,
                 lotteryId: lotteryId,
                 checkedWinningNumber: checkedWinningNumber,

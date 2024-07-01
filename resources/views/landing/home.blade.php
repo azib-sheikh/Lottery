@@ -94,8 +94,8 @@
                             </div> -->
                         </div>
                     </div>
-                    <div style="font-size: 34px;line-height: 44px;font-weight: 600;margin-top: -11px;margin-bottom: 2px; color: white" id="expires_on">
-                        {{--Lottery open at : {{ \Carbon\Carbon::parse($lottery->expires_on)->format('d-m-Y H:i') }}--}}
+                    <div style="font-size: 34px;line-height: 44px;font-weight: 600;margin-top: -11px;margin-bottom: 2px; color: white">
+                        <span id="expires_on">{{--Lottery open at : {{ \Carbon\Carbon::parse($lottery->expires_on)->format('d-m-Y H:i') }}--}}</span>
                         <span id="multiTimer"></span>
                     </div>
                     {{-- <div class="part-lottery-function-btn">
@@ -558,20 +558,33 @@
                 var expires_on = $result['expires_on'];
                 var lotteryNumbersArray = $result['lotteryNumbersArray'];
                 var lotteryWinningAmountArray = $result['lotteryWinningAmountArray'];
+                var lottery_image = $result['lottery_image'];
 
                 $('#lottery_name').html(lottery_name);
                 $('#lottery_price').html(lottery_price);
                 $('#lottery_image').attr('src', lottery_image);
-                $('#expires_on').html(expires_on);
+                $('#expires_on').html("Lottery open at :" + expires_on);
                 $('#lotteryNumbersArray').html(lotteryNumbersArray);
                 $('#lotteryWinningAmountArray').html(lotteryWinningAmountArray);
+                setDateForTimer(expires_on);
             }
         })
     }
 </script>
-{{-- <script>
+<script>
+    function setDateForTimer(expires_on) {
+
+        const dt = new Date(expires_on);
+        const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
+        console.log(expires_on)
+        console.log(`${dt.getFullYear()}-${padL(dt.getDate())}-${padL(dt.getMonth()+1)} ${padL(dt.getHours())}:${padL(dt.getMinutes())}`);
+        var countDownDateF = `${dt.getFullYear()}-${padL(dt.getDate())}-${padL(dt.getMonth()+1)} ${padL(dt.getHours())}:${padL(dt.getMinutes())}`;
+
         // Set the date we're counting down to
-        var countDownDate = new Date('2024-05-11 18:00').getTime();
+        // var countDownDate = new Date('2024-07-11 18:00').getTime();
+
+        var countDownDate = new Date(countDownDateF).getTime();
+        console.log(countDownDate)
 
         // Update the count down every 1 second
         var x = setInterval(function() {
@@ -598,5 +611,18 @@
                 document.getElementById("multiTimer").innerHTML = "Result declared!";
             }
         }, 1000);
-    </script> --}}
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            day = '' + (d.getMonth() + 1),
+            month = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+</script>
 @endpush
