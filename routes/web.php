@@ -10,6 +10,7 @@ use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\LotteryController as UserLotteryController;
 use App\Http\Controllers\User\TransactionController as UserTransactionController;
+use App\Http\Controllers\API\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,19 @@ use App\Http\Controllers\User\TransactionController as UserTransactionController
 |
 */
 
+Route::get('/clear-cache', function () {
+    $exitCode = \Artisan::call('route:clear');
+    $exitCode = \Artisan::call('cache:clear');
+    $exitCode = \Artisan::call('config:cache');
+    $exitCode = \Artisan::call('view:clear');
+
+    echo "cache,config,route,view clear succesfully";
+    // return what you want
+});
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/lottery-details-ajax', [HomeController::class, 'lottery_details_ajax'])->name('home.lottery_details_ajax');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart');
 
 Route::get('/about-us', function () {
     return view('landing.about-us');
@@ -74,6 +87,7 @@ Route::prefix('auth')->group(function () {
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'role:user']], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/check-helper-function', [DashboardController::class, 'check_helper_function'])->name('check_helper_function');
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('edit', [ProfileController::class, 'edit'])->name('edit');

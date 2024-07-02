@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Online Lottery Platform</title>
     <!-- favicon -->
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
@@ -121,7 +122,7 @@
 
     @include('layouts.partials.header')
     @yield('content')
-
+    @if(Auth::check())
     <div class="cart-overlay">
         <div class="cart">
             <div class="cart-header">
@@ -139,23 +140,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach(App\Http\Helpers\CartHelper::getAllProductFromCart() as $data)
+                        @php
+                        $lottery = App\Models\Lottery::where('id',$data['lottery_id'])->first();
+                        @endphp
                         <tr>
-                            <td>1</td>
-                            <td>Euro Jackpot</td>
-                            <td>2</td>
-                            <td>$200</td>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$lottery->lotteryMaster->lottery_name}}</td>
+                            <td>{{$data['checked_winning_quantity']}}</td>
+                            <td>{{$lottery->lotteryMaster->lottery_price}}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Euro Jackpot</td>
-                            <td>2</td>
-                            <td>$200</td>
-                        </tr>
+                        @endforeach
+
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-right">Total</td>
-                            <td class="text-right">$400</td>
+                            <td class="text-right">{{App\Http\Helpers\CartHelper::totalCartPrice()}}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -165,6 +166,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     @include('layouts.partials.footer')
 

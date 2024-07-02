@@ -35,15 +35,37 @@ class LotteryController extends Controller
     public function lotteryMasterStore(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'lottery_name' => 'sometimes|string|max:255|required',
+                'lottery_price' => 'sometimes|integer|required',
+                'lottery_type' => 'sometimes|required',
+                'lottery_winning_amount' => 'sometimes|required',
+                'lottery_image' => 'mimes:png,jpg,jpeg|max:4096|required',
+
+            ]);
+            if ($validator->fails()) {
+                NotificationHelper::errorResponse($validator->errors()->first());
+                return back()->withErrors($validator)->withInput();
+            }
             DB::transaction(function () use ($request) {
                 $lotteryMaster = new LotteryMaster();
+
+                if ($request->hasFile('lottery_image')) {
+                    $lottery_image = $request->file('lottery_image');
+                    $lotteryImageName = time() . '_' . $lottery_image->getClientOriginalName();
+                    $lottery_image->move(public_path('lottery_image'), $lotteryImageName);
+                    $lotteryMaster->lottery_image = 'lottery_image/' . $lotteryImageName;
+                }
                 $lotteryMaster->lottery_name = $request->lottery_name;
+                $lotteryMaster->lottery_price = $request->lottery_price;
+                $lotteryMaster->lottery_type = $request->lottery_type;
+                $lotteryMaster->lottery_winning_amount = $request->lottery_winning_amount;
                 $lotteryMaster->description = $request->description;
                 $lotteryMaster->save();
             });
 
             NotificationHelper::successResponse("Lottery Master Created!");
-            return redirect()->route('adminlotteryMaster.index');
+            return redirect()->route('admin.lotteryMaster.index');
         } catch (Exception $e) {
             NotificationHelper::errorResponse("Some error occured!");
             return back();
@@ -88,40 +110,38 @@ class LotteryController extends Controller
             NotificationHelper::successResponse("Lottery Created succesfully");
             return redirect()->route('admin.lottery.index');
         } catch (Exception $e) {
-            dd($e->getLine(),$e->getMessage());
+            dd($e->getLine(), $e->getMessage());
         }
     }
 
 
     public function lotteryShow(Request $request)
     {
-        if(!$request->query('lottery_id')) {
+        if (!$request->query('lottery_id')) {
             NotificationHelper::errorResponse("Malformed Url!");
             return redirect()->route('admin.lottery.index');
         }
 
         $lottery = Lottery::find($request->query('lottery_id'));
-        if(!$lottery) {
+        if (!$lottery) {
             NotificationHelper::errorResponse("Lottery not found!");
             return redirect()->route('admin.lottery.index');
         }
 
         return view('backend.lottery.show', compact('lottery'));
-
     }
 
     public function lotteryShowChosenNumbers($lotteryId)
     {
         $lottery = Lottery::find($lotteryId);
-        if(!$lottery) {
+        if (!$lottery) {
             NotificationHelper::errorResponse("Lottery not found!");
             return redirect()->route('admin.lottery.index');
         }
         $chosenNumbers = DB::table('user_chosen_numbers')
-                            ->join('users','users.id','=','user_chosen_numbers.user_id')
-                            ->select('user_chosen_numbers.*','users.name')
-                            ->get();
-        return view('backend.lottery.showChosenNumbers', compact('lottery','chosenNumbers'));
+            ->join('users', 'users.id', '=', 'user_chosen_numbers.user_id')
+            ->select('user_chosen_numbers.*', 'users.name')
+            ->get();
+        return view('backend.lottery.showChosenNumbers', compact('lottery', 'chosenNumbers'));
     }
-
 }

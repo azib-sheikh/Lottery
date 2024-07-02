@@ -99,9 +99,8 @@ class ProfileController extends Controller
 
             NotificationHelper::successResponse('Profile updated successfully.');
             return back();
-
         } catch (\Exception $e) {
-            dd($e->getLine(),$e->getMessage());
+            dd($e->getLine(), $e->getMessage());
             return back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
     }

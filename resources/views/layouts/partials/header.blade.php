@@ -28,9 +28,9 @@
                                 <li class="nav-item">
                                     <a class='nav-link' href='{{ route('landing.about-us') }}'>About us</a>
                                 </li>
-                                 <li class="nav-item">
+                                <li class="nav-item">
                                     <a class='nav-link' href='{{ route('landing.lottery') }}'>Lotteries</a>
-                                </li> 
+                                </li>
                                 {{-- <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Pages
@@ -44,7 +44,7 @@
                                         <li><a class='dropdown-item' href='error.html'>Error 404</a></li>
                                     </ul>
                                 </li> --}}
-                                 <li class="nav-item">
+                                <li class="nav-item">
                                     <a class='nav-link' href='#'>How to play</a>
                                 </li>
                                 <li class="nav-item">
@@ -58,17 +58,18 @@
                     </nav>
                 </div>
             </div>
-            @if(Auth::check()) 
+            @if(Auth::check())
             <div class="col-xl-3 col-lg-3 d-xl-flex d-lg-flex d-none align-items-center justify-content-end">
-            <a class="btn-pok mid" href="{{ route('user.dashboard') }}">
-                {{-- Welcome, {{ Auth::user()->name }} --}}My Account
-            </a>
-            <a class="btn-pok mid ms-3" id="open-cart-btn">
+                <a class="btn-pok mid" href="{{ route('user.dashboard') }}">
+                    {{-- Welcome, {{ Auth::user()->name }} --}}My Account
+                </a>
+                <a class="btn-pok mid ms-3" id="open-cart-btn">
+                    <li>{{App\Http\Helpers\CartHelper::cartCount()}}</li>
                     <i class="fa fa-cart-shopping"></i>
                 </a>
-            
+
             </div>
-            
+
             @else
 
             <div class="col-xl-3 col-lg-3 d-xl-flex d-lg-flex d-none align-items-center justify-content-end">
