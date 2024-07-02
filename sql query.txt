@@ -1,0 +1,1 @@
+ALTER TABLE `lottery_master` ADD `lottery_price` VARCHAR(20) NULL DEFAULT NULL AFTER `lottery_name`, ADD `lottery_type` INT NULL DEFAULT NULL AFTER `lottery_price`, ADD `lottery_winning_amount` INT NULL DEFAULT NULL AFTER `lottery_type`, ADD `lottery_image` VARCHAR(200) NULL DEFAULT NULL AFTER `lottery_winning_amount`;

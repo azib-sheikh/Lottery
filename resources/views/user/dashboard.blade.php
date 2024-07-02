@@ -83,7 +83,7 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-12">
-                                    <a href="{{ route('user.lottery.index') }}" class="small-box-footer">
+                                    <a href="{{ route('user.lottery.index') }}" class="small-box-footer d-block">
                                         <div class="info-box bg-gradient-success">
                                             <span class="info-box-icon"><i class="fa-solid fa-dice-d20"></i></span>
                                             <div class="info-box-content">
@@ -94,9 +94,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
+                            <div class="col-md-12">
                                 <!-- small box -->
-                                <a href="{{ route('user.transaction.index') }}" class="small-box-footer">
+                                <a href="{{ route('user.transaction.index') }}" class="small-box-footer d-block">
                                     <div class="info-box bg-gradient-warning">
                                         <span class="info-box-icon text-light"><i class="fa-solid fa-money-bill-transfer"></i></span>
                                         <div class="info-box-content">
@@ -108,12 +108,12 @@
                         </div>
                         <!-- ./col -->
                         <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <a href="#" class="small-box-footer">
+                            <div class="col-md-12">
+                                <a href="#" class="small-box-footer d-block">
                                     <div class="info-box bg-gradient-danger">
                                         <span class="info-box-icon"><i class="fa-solid fa-trophy"></i></span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text">My Winnings</span>
+                                            <span class="info-box-text ">My Winnings</span>
                                         </div>
                                     </div>
                                 </a>

@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Route::post('/cart/add', 'CartController@addToCart')->name('addToCart');
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart');
+// Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart');
