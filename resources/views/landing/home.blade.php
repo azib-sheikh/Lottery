@@ -585,15 +585,15 @@ if ($lottery->isNotEmpty()) {
 
         const dt = new Date(expires_on);
         const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
-        console.log(expires_on)
-        console.log(`${dt.getFullYear()}-${padL(dt.getDate())}-${padL(dt.getMonth()+1)} ${padL(dt.getHours())}:${padL(dt.getMinutes())}`);
+        console.log("expires_on=" + expires_on)
+        // console.log("s=" + `${dt.getFullYear()}-${padL(dt.getDate())}-${padL(dt.getMonth()+1)} ${padL(dt.getHours())}:${padL(dt.getMinutes())}`);
         var countDownDateF = `${dt.getFullYear()}-${padL(dt.getDate())}-${padL(dt.getMonth()+1)} ${padL(dt.getHours())}:${padL(dt.getMinutes())}`;
-
+        console.log("countDownDateF=" + countDownDateF)
         // Set the date we're counting down to
         // var countDownDate = new Date('2024-07-11 18:00').getTime();
 
         var countDownDate = new Date(countDownDateF).getTime();
-        console.log(countDownDate)
+        console.log("countDownDate=" + countDownDate)
 
         // Update the count down every 1 second
         var x = setInterval(function() {

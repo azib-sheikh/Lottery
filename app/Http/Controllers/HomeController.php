@@ -41,7 +41,7 @@ class HomeController extends Controller
 
         $lotteryWinningAmount = $lottery->lotteryMaster->lottery_winning_amount;
         $lotteryWinningAmountArray = [];
-        for ($i = 1; $i < $lotteryWinningAmount - 1; $i++) {
+        for ($i = 1; $i <= $lotteryWinningAmount; $i++) {
             $lotteryWinningItems = "<label>X$i</label><input type='radio' name='lotteryWinningItems' value='$i' class='winning-number'>";
             $lotteryWinningAmountArray[] = $lotteryWinningItems;
         }
