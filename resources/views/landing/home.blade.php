@@ -1,4 +1,13 @@
 @extends('layouts.master')
+<?php
+
+if ($lottery->isNotEmpty()) {
+
+    $lottery_id = $lottery[0]->id;
+} else {
+    $lottery_id = 0;
+}
+?>
 
 
 @section('content')
@@ -50,7 +59,7 @@
         <div class="part-picking-number">
             <div class="lotteries-selection-menu">
                 <ul>
-                    @if($lottery)
+                    @if($lottery->isNotEmpty())
                     <input type="hidden" id="set_lottery_id" value="">
                     @foreach($lottery as $data)
                     <li>
@@ -79,12 +88,12 @@
                     <img src="{{ asset('assets/img/lottery/lottery-header-right-img.png') }}" alt="" class="lottery-bg-img">
                     <div class="part-lottery-info">
                         <div class="part-img selected-lottery-logo">
-                            <img id="lottery_image" src="{{ asset('assets/img/lottery/euro-jackpot-big.png') }}" alt="">
+                            <img id="lottery_image" src="{{ asset('assets/img/lottery/euro-jackpot-big.') }}" alt="">
                         </div>
                         <div class="part-text">
                             {{--<span class="lottery-name">{{ $lottery->lotteryMaster->lottery_name }}</span>--}}
                             <span class="lottery-name" id="lottery_name"></span>
-                            <span class="estimate-prize">Estimated prize : <span class="prize-amount" id="lottery_price">$25.0248</span></span>
+                            <span class="estimate-prize">Estimated prize : <span class="prize-amount" id="lottery_price">00</span></span>
                             <!-- <div class="part-lottery-function-btn mt-2">
                                 <div class="nav nav-pills" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
@@ -527,7 +536,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        var lottery_id = "{{$lottery[0]->id}}";
+        var lottery_id = "{{ $lottery_id }}";
         getLotteryData(lottery_id);
     });
     $(".single-lottery-item").on('click', function() {

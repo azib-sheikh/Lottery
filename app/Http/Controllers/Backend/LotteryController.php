@@ -67,7 +67,7 @@ class LotteryController extends Controller
             NotificationHelper::successResponse("Lottery Master Created!");
             return redirect()->route('admin.lotteryMaster.index');
         } catch (Exception $e) {
-            NotificationHelper::errorResponse("Some error occured!");
+            NotificationHelper::errorResponse($e->getMessage());
             return back();
         }
     }

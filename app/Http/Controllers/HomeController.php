@@ -13,7 +13,7 @@ class HomeController extends Controller
         $todaydate = date('Y-m-d h:i:00');
 
         $lottery = Lottery::where('expires_on', '>=', $todaydate)->get();
-        // dd($lottery);
+        // dd($lottery->isEmpty());
         // return $lottery->lotteryNumbers;
         return view('landing.home', compact('lottery'));
     }
