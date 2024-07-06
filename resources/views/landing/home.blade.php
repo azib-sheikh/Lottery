@@ -103,7 +103,7 @@ if ($lottery->isNotEmpty()) {
                             </div> -->
                         </div>
                     </div>
-                    <div style="font-size: 34px;line-height: 44px;font-weight: 600;margin-top: -11px;margin-bottom: 2px; color: white">
+                    <div class="cd-wrapper">
                         <span id="expires_on">{{--Lottery open at : {{ \Carbon\Carbon::parse($lottery->expires_on)->format('d-m-Y H:i') }}--}}</span>
                         <span id="multiTimer"></span>
                     </div>
