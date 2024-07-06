@@ -13,7 +13,7 @@ class HomeController extends Controller
         $todaydate = date('Y-m-d h:i:00');
 
         $lottery = Lottery::where('expires_on', '>=', $todaydate)->get();
-        // dd($lottery);
+        // dd($lottery->isEmpty());
         // return $lottery->lotteryNumbers;
         return view('landing.home', compact('lottery'));
     }
@@ -41,7 +41,7 @@ class HomeController extends Controller
 
         $lotteryWinningAmount = $lottery->lotteryMaster->lottery_winning_amount;
         $lotteryWinningAmountArray = [];
-        for ($i = 1; $i < $lotteryWinningAmount - 1; $i++) {
+        for ($i = 1; $i <= $lotteryWinningAmount; $i++) {
             $lotteryWinningItems = "<label>X$i</label><input type='radio' name='lotteryWinningItems' value='$i' class='winning-number'>";
             $lotteryWinningAmountArray[] = $lotteryWinningItems;
         }
