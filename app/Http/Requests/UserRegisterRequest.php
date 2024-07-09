@@ -24,9 +24,9 @@ class UserRegisterRequest extends FormRequest
     {
         return [
             'name'          => 'required|string',
-            'email'         =>'required|email|unique:users,email',
+            'email'         => 'required|email|unique:users,email',
             'mobile'        => 'required|regex:/^[0-9]{10}$/|unique:users,mobile',
-            'date_of_birth' => 'required|date|before:-18 years',
+            // 'date_of_birth' => 'required|date|before:-18 years',
             'password'      => 'required|min:8',
             'tnc'           => 'required'
         ];
@@ -40,8 +40,8 @@ class UserRegisterRequest extends FormRequest
             'email.email' => 'Please enter correct email',
             'mobile.required' => 'Please enter mobile number',
             // 'mobile.regex' => 'Please enter Correct mobile number',
-            'date_of_birth.required' => 'Please enter Valid date of birth',
-            'date_of_birth.before' => 'Minimum age to access this website is 18 Years',
+            // 'date_of_birth.required' => 'Please enter Valid date of birth',
+            // 'date_of_birth.before' => 'Minimum age to access this website is 18 Years',
             'tnc.required' => 'Please accept terms and conditions'
         ];
     }

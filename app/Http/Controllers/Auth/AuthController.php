@@ -45,12 +45,26 @@ class AuthController extends Controller
     {
 
         try {
-            DB::transaction(function () use ($request) {
+
+            $referred_by = '';
+            if ($request->referred_by) {
+                $user = User::where('referral_code', $request->referred_by)->first();
+
+                if (is_null($user)) {
+                    NotificationHelper::errorResponse('Invalid referrel code.');
+                    return redirect()->route('auth.register');
+                }
+                $referred_by = $user['id'];
+            }
+            $referral_code = $this->generateUniqueCode();
+            DB::transaction(function () use ($request, $referral_code, $referred_by) {
                 $user = new User;
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->mobile = $request->mobile;
-                $user->date_of_birth = $request->date_of_birth;
+                // $user->date_of_birth = $request->date_of_birth;
+                $user->referral_code = $referral_code;
+                $user->referred_by = $referred_by;
                 $user->password = Hash::make($request->password);
                 $user->save();
                 $role = Role::where('name', '=', 'user')->first();
@@ -106,5 +120,27 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect('/');
+    }
+
+    public function generateUniqueCode()
+    {
+
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersNumber = strlen($characters);
+        $codeLength = 6;
+
+        $code = '';
+
+        while (strlen($code) < 6) {
+            $position = rand(0, $charactersNumber - 1);
+            $character = $characters[$position];
+            $code = $code . $character;
+        }
+
+        if (User::where('referral_code', $code)->exists()) {
+            $this->generateUniqueCode();
+        }
+
+        return $code;
     }
 }
