@@ -34,7 +34,7 @@ class HomeController extends Controller
         $lotteryNumbers = $lottery->lotteryNumbers;
         $lotteryNumbersArray = [];
         foreach ($lotteryNumbers as $item) {
-            $lotteryItems = "<label>$item->number</label><input type= '$lottery_type' name='$selectedNumber' value='$item->number' class='single-number lotteryNumbers'>";
+            $lotteryItems = "<input type= '$lottery_type' name='$selectedNumber' value='$item->number' class='single-number lotteryNumbers' id='lot_no_$item->number' hidden><label for='lot_no_$item->number'>$item->number</label>";
 
             $lotteryNumbersArray[] = $lotteryItems;
         }
@@ -42,7 +42,7 @@ class HomeController extends Controller
         $lotteryWinningAmount = $lottery->lotteryMaster->lottery_winning_amount;
         $lotteryWinningAmountArray = [];
         for ($i = 1; $i <= $lotteryWinningAmount; $i++) {
-            $lotteryWinningItems = "<label>X$i</label><input type='radio' name='lotteryWinningItems' value='$i' class='winning-number'>";
+            $lotteryWinningItems = "<input type='radio' name='lotteryWinningItems' value='$i' class='winning-number' id='s_lot_no_$i' hidden><label for='s_lot_no_$i'>X$i</label>";
             $lotteryWinningAmountArray[] = $lotteryWinningItems;
         }
         $lottery_image = is_null($lottery->lotteryMaster->lottery_image) || empty($lottery->lotteryMaster->lottery_image)
