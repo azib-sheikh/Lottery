@@ -106,6 +106,11 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
         Route::get('/', [UserTransactionController::class, 'index'])->name('index');
         Route::get('/show', [UserTransactionController::class, 'show'])->name('show');
     });
+    Route::group(['prefix' => 'wallet', 'as' => 'wallet.'], function () {
+        Route::get('/', function () {
+            return view('user.wallet.index');
+        });
+    });
 });
 
 /**
