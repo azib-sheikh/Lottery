@@ -100,6 +100,9 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
         Route::post('/checkout', [UserLotteryController::class, 'checkout'])->name('checkout');
         Route::post('/saveChosenNumbers', [UserLotteryController::class, 'saveChosenNumbers'])->name('saveChosenNumbers');
         Route::get('/showChosenNumbers/{lotteryId}', [UserLotteryController::class, 'showChosenNumbers'])->name('showChosenNumbers');
+        Route::get('/show-result', function () {
+            return view('user.lottery.lotteryresult');
+        });
     });
 
     Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function () {

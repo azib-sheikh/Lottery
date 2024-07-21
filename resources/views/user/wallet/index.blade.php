@@ -304,6 +304,9 @@ margin-bottom: 25px;
             <div class="col-4">
                 <input class="form-control" type="number" name="" id="">
             </div>
+            <div class="col-12 text-right mt-2">
+                <p><b>Balance </b>$1200</p>
+            </div>
         </div>
         <button class="btn-pok mid" type="submit">Withdraw Money</button>
     </form>

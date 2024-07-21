@@ -111,7 +111,7 @@
                                     </div>
                                     <div class="trans-view">
                                         {{-- <a class="link-btn" href="{{ route('user.lottery.chooseNumbers',['lotteryId' => $lottery->id ]) }}">Choose Number</a> --}}
-                                        <a class="link-btn" href="{{ route('user.lottery.showChosenNumbers',['lotteryId' => $lottery->id]) }}">Show</a>
+                                        <a class="link-btn" href="{{ url('user/lottery/show-result') }}">Show</a>
 
                                     </div>
 
