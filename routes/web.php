@@ -56,9 +56,9 @@ Route::get('login', function () {
 Route::get('register', function () {
     return view('auth.register');
 })->name('auth.register');
-Route::get('/checkout', function () {
-    return view('landing.checkout');
-})->name('landing.checkout');
+// Route::get('/checkout', function () {
+//     return view('landing.checkout');
+// })->name('landing.checkout');
 
 Route::group(['middleware' => ['guest']], function () {
 
@@ -97,7 +97,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
     Route::group(['prefix' => 'lottery', 'as' => 'lottery.'], function () {
         Route::get('/', [UserLotteryController::class, 'index'])->name('index');
         Route::get('/chooseNumbers/{lotteryId}', [UserLotteryController::class, 'chooseNumbers'])->name('chooseNumbers');
-        Route::post('/checkout', [UserLotteryController::class, 'checkout'])->name('checkout');
+        Route::get('/checkout', [UserLotteryController::class, 'checkout'])->name('checkout');
         Route::post('/saveChosenNumbers', [UserLotteryController::class, 'saveChosenNumbers'])->name('saveChosenNumbers');
         Route::get('/showChosenNumbers/{lotteryId}', [UserLotteryController::class, 'showChosenNumbers'])->name('showChosenNumbers');
     });

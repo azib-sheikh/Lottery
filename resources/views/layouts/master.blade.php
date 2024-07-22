@@ -162,7 +162,7 @@
                 </table>
             </div>
             <div class="cart-footer">
-                <button class="btn-pok w-100">Proceed to Checkout</button>
+                <a href="{{route('user.lottery.checkout')}}" class="btn-pok w-100">Proceed to Checkout</a>
             </div>
         </div>
     </div>

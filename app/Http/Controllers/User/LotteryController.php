@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Helpers\NotificationHelper;
 use App\Models\Order;
 use App\Models\Transaction;
+use App\Http\Helpers\CartHelper;
 
 class LotteryController extends Controller
 {
@@ -25,46 +26,57 @@ class LotteryController extends Controller
     public function chooseNumbers($lotteryId)
     {
         $lottery = Lottery::find($lotteryId);
-        if(!$lottery) {
+        if (!$lottery) {
             NotificationHelper::errorResponse("Invalid Lottery!");
             return back();
         }
 
-        $selectedNumbers = UserChosenNumber::where('user_id',Auth::user()->id)
-                            ->where('lottery_id', $lottery->id)->pluck('number')->toArray();
+        $selectedNumbers = UserChosenNumber::where('user_id', Auth::user()->id)
+            ->where('lottery_id', $lottery->id)->pluck('number')->toArray();
 
-        return view('user.lottery.chooseNumbers', compact('lottery','selectedNumbers'));
-
+        return view('user.lottery.chooseNumbers', compact('lottery', 'selectedNumbers'));
     }
 
 
-    public function checkout(Request $request)
+    // public function checkout(Request $request)
+    // {
+    //     // $encryptedLotteryNumbers = [];
+    //     // foreach($request->numbers as $number) {
+    //     //     $encryptedLotteryNumbers[] = encrypt($number);
+    //     // }
+    //     if(empty($request->numbers)) {
+    //         NotificationHelper::errorResponse('Please select any number');
+    //         return back();
+    //     }
+    //     $lottery = Lottery::find($request->lotteryId);
+    //     $selectedNumbers = $request->numbers;
+
+    //     return view('user.lottery.checkout', compact('lottery','selectedNumbers'));
+    // }
+
+    public function checkout()
     {
-        // $encryptedLotteryNumbers = [];
-        // foreach($request->numbers as $number) {
-        //     $encryptedLotteryNumbers[] = encrypt($number);
-        // }
-        if(empty($request->numbers)) {
+        $cart_count = CartHelper::cartCount();
+
+        if (empty($cart_count) or $cart_count == 0) {
             NotificationHelper::errorResponse('Please select any number');
             return back();
         }
-        $lottery = Lottery::find($request->lotteryId);
-        $selectedNumbers = $request->numbers;
 
-        return view('user.lottery.checkout', compact('lottery','selectedNumbers'));
+        return view('user.lottery.checkout');
     }
 
 
     public function saveChosenNumbers(Request $request)
     {
-        if(empty($request->numbers)) {
+        if (empty($request->numbers)) {
             NotificationHelper::errorResponse('Please select any number');
             return back();
         }
 
         try {
             DB::transaction(function () use ($request) {
-                $user = auth()->user(); 
+                $user = auth()->user();
                 $selectedNumbers = $request->input('numbers');
 
                 // create order
@@ -99,8 +111,7 @@ class LotteryController extends Controller
 
             NotificationHelper::successResponse('Number selected successfully');
             return redirect()->route('user.lottery.index');
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             dd($e->getLine(), $e->getMessage());
         }
     }
@@ -109,16 +120,13 @@ class LotteryController extends Controller
     public function showChosenNumbers($lotteryId)
     {
         $chosenNumbers = UserChosenNumber::where('user_id', Auth::user()->id)
-                                    ->where('lottery_id', $lotteryId)
-                                    ->get();
-        if(count($chosenNumbers) == 0) {
+            ->where('lottery_id', $lotteryId)
+            ->get();
+        if (count($chosenNumbers) == 0) {
             NotificationHelper::errorResponse('No numbers chosen yet!');
             return back();
         }
 
         return view('user.lottery.showChosenNumbers', compact('chosenNumbers'));
-
-
     }
-
 }
