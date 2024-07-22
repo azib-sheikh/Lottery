@@ -77,7 +77,7 @@
             </div>
 
             <div class="row">
-                @foreach($data as $transaction)
+               
                 <div class="col-md-6">
                     <div class="transaction-card">
                         <div class="d-flex">
@@ -87,13 +87,17 @@
                                 </div>
                                 <div class="trans-data">
                                 <strong class="d-block">Amount Paid</strong>
-                                <i class="text-dark">{{ \Carbon\Carbon::parse($transaction->created_at)->format('d-m-Y g:i A') }}</i>
+                                 <i class="text-dark">10-12-24
+                                    {{-- {{ \Carbon\Carbon::parse($transaction->created_at)->format('d-m-Y g:i A') }} --}}
+                                </i> 
                                 </div>
                                
                             </div>
                             <div class="trans-amount">
                                 <div>
-                                <strong class="d-block">{{ $transaction->payment_amount }}</strong>
+                                <strong class="d-block">900
+                                    {{-- {{ $transaction->payment_amount }} --}}
+                                </strong>
                                 <i class="text-success">Credited</i>
                                 </div>
                             </div>
@@ -110,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+               
             </div>
         </div>
     </div>

@@ -14,8 +14,8 @@ class TransactionController extends Controller
 
     public function index()
     {
-        $data = Transaction::where('user_id', Auth::user()->id)->get();
-        return view('user.transaction.index', compact('data'));
+        // $data = Transaction::where('user_id', Auth::user()->id)->get();
+        return view('user.transaction.index');
     }
 
     public function show()

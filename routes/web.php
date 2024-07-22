@@ -100,11 +100,19 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
         Route::get('/checkout', [UserLotteryController::class, 'checkout'])->name('checkout');
         Route::post('/saveChosenNumbers', [UserLotteryController::class, 'saveChosenNumbers'])->name('saveChosenNumbers');
         Route::get('/showChosenNumbers/{lotteryId}', [UserLotteryController::class, 'showChosenNumbers'])->name('showChosenNumbers');
+        Route::get('/show-result', function () {
+            return view('user.lottery.lotteryresult');
+        });
     });
 
     Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function () {
         Route::get('/', [UserTransactionController::class, 'index'])->name('index');
         Route::get('/show', [UserTransactionController::class, 'show'])->name('show');
+    });
+    Route::group(['prefix' => 'wallet', 'as' => 'wallet.'], function () {
+        Route::get('/', function () {
+            return view('user.wallet.index');
+        });
     });
 });
 
