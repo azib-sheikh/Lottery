@@ -51,8 +51,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="" class="brand-link ">
-            <img src="{{ asset('images/website_logo.png') }}" alt="logo" class="brand-image img-circle elevation-3"
-                style="opacity: .8">
+            <img src="{{ asset('images/website_logo.png') }}" alt="logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">Admin Panel</span>
         </a>
 
@@ -63,19 +62,16 @@
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
                 <div class="info">
-                    <span
-                        class="d-block text-white">{{ Auth::user()->name . ' (' . Auth::user()->getRoleNames()[0] . ')' }}</span>
+                    <span class="d-block text-white">{{ Auth::user()->name . ' (' . Auth::user()->getRoleNames()[0] . ')' }}</span>
                 </div>
             </div>
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                    data-accordion="false">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                     <li class="nav-item">
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="nav-link text-white {{ Route::is('admin.dashboard') ? 'active' : '' }}">
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link text-white {{ Route::is('admin.dashboard') ? 'active' : '' }}">
                             {{-- <i class="nav icon fab fa-duotone fa-grid-horizontal"></i> --}}
                             <i class="nav-icon fa-sharp fa-solid fa-chart-line"></i>
                             <p>Dashboard</p>
@@ -104,6 +100,13 @@
                                 <a href="{{ route('admin.lottery.index') }}" class="nav-link">Create Lottery</a>
                             </li>
                         </ul>
+                    </li>
+
+                    <li class="nav-item ">
+                        <a href="{{ route('admin.transaction.index') }}" class="nav-link text-white {{-- Route::is('admin.transaction.index') ? 'active' : '' --}}">
+                            <i class="nav-icon fa-regular fa-user"></i>
+                            <p>Transaction</p>
+                        </a>
                     </li>
 
                     <li class="nav-item ">

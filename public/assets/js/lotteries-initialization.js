@@ -77,3 +77,65 @@ $(document).ready(function ($) {
         });
     });
 });
+
+function confirmDelete(itemId) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var url = "remove-cart-item";
+            var csrf = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "POST",
+                url: url,
+
+                data: {
+                    _token: csrf,
+                    id: itemId,
+                },
+                success: function (data) {
+                    // alert("Remove from cart.");
+                    location.reload();
+                },
+            });
+        }
+    });
+}
+
+function confirmUpdate(status) {
+    var transactions_id = $("#transactions_id").val();
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, update it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var url = "transaction/update-status";
+            var csrf = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                type: "POST",
+                url: url,
+
+                data: {
+                    _token: csrf,
+                    transactions_id: transactions_id,
+                    status: status,
+                },
+                success: function (data) {
+                    // alert("Remove from cart.");
+                    location.reload();
+                },
+            });
+        }
+    });
+}

@@ -11,6 +11,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\LotteryController as UserLotteryController;
 use App\Http\Controllers\User\TransactionController as UserTransactionController;
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\Backend\TransactionController as BackendTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +99,8 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
         Route::get('/', [UserLotteryController::class, 'index'])->name('index');
         Route::get('/chooseNumbers/{lotteryId}', [UserLotteryController::class, 'chooseNumbers'])->name('chooseNumbers');
         Route::get('/checkout', [UserLotteryController::class, 'checkout'])->name('checkout');
+        Route::post('/remove-cart-item', [UserLotteryController::class, 'removeCartItem'])->name('remove-cart-item');
+        Route::get('/process-checkout', [UserLotteryController::class, 'processCheckout'])->name('process-checkout');
         Route::post('/saveChosenNumbers', [UserLotteryController::class, 'saveChosenNumbers'])->name('saveChosenNumbers');
         Route::get('/showChosenNumbers/{lotteryId}', [UserLotteryController::class, 'showChosenNumbers'])->name('showChosenNumbers');
         Route::get('/show-result', function () {
@@ -107,12 +110,13 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
 
     Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function () {
         Route::get('/', [UserTransactionController::class, 'index'])->name('index');
+        Route::get('/load-more', [UserTransactionController::class, 'index_load_more'])->name('load-more');
         Route::get('/show', [UserTransactionController::class, 'show'])->name('show');
     });
     Route::group(['prefix' => 'wallet', 'as' => 'wallet.'], function () {
-        Route::get('/', function () {
-            return view('user.wallet.index');
-        });
+        Route::get('/', [UserTransactionController::class, 'wallet'])->name('show-wallet');
+        Route::post('/deposit-amount', [UserTransactionController::class, 'depositAmount'])->name('deposit-amount');
+        Route::post('/withdraw-amount', [UserTransactionController::class, 'withdrawAmount'])->name('withdraw-amount');
     });
 });
 
@@ -141,5 +145,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'r
         Route::post('/store', [LotteryController::class, 'lotteryStore'])->name('store');
         Route::get('/show', [LotteryController::class, 'lotteryShow'])->name('show');
         Route::get('/showChosenNumbers/{lotteryId}', [LotteryController::class, 'lotteryShowChosenNumbers'])->name('showChosenNumbers');
+    });
+
+    Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function () {
+        Route::get('/', [BackendTransactionController::class, 'index'])->name('index');
+        Route::post('/update-status', [BackendTransactionController::class, 'updateTransactionStatus'])->name('update-transaction-status');
     });
 });

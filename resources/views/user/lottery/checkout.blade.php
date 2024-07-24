@@ -27,7 +27,7 @@
             <span class="qty-num">{{$data['checked_winning_quantity']}}</span>
           </div>
 
-          <span class="item-close"><i class="fa fa-xmark"></i></span>
+          <span class="item-close" onclick="confirmDelete({{ $data['id'] }})"><i class="fa fa-xmark"></i></span>
         </div>
         <!-- <div class="checkout-item">
           <div class="lottery-info">
@@ -87,7 +87,7 @@
             </tr>
           </tfoot>
         </table>
-        <button class="btn-pok w-100 mt-4">Complete Checkout</button>
+        <a class="btn-pok w-100 mt-4" href="{{route('user.lottery.process-checkout')}}">Complete Checkout</a>
       </div>
     </div>
   </div>

@@ -10,8 +10,8 @@ class Transaction extends Model
     use HasFactory;
     protected $table = 'transactions';
     protected $fillable = [
-        'order_id','payment_status','payment_amount',
-        'payment_mode','payment_reference_number','user_id'
+        'user_id', 'order_id', 'amount', 'mode_of_payment',
+        'payment_reference_number', 'action', 'status', 'payment_image'
     ];
 
 
@@ -35,5 +35,4 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
 }
