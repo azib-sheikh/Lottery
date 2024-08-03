@@ -21,8 +21,13 @@ class LotteryController extends Controller
 {
     public function index()
     {
-        $data = Lottery::all();
-        return view('user.lottery.index', compact('data'));
+        try {
+            $user = Auth::user();
+            $data = Cart::where('user_id', $user->id)->where('order_id', '!=', null)->get();
+            return view('user.lottery.index', compact('data'));
+        } catch (Exception $e) {
+            NotificationHelper::errorResponse($e->getLine(), $e->getMessage());
+        }
     }
 
     public function chooseNumbers($lotteryId)
@@ -81,10 +86,10 @@ class LotteryController extends Controller
             foreach ($getAllProductFromCart as $product) {
                 $lottery = Lottery::where('id', $product['lottery_id'])->first();
                 $todaydate = date('Y-m-d h:i:00');
-                // if ($product['expires_on'] < $todaydate) {
-                //     NotificationHelper::errorResponse($lottery->lotteryMaster->lottery_name . ' Lottery expired, Please remove from cart.');
-                //     return back();
-                // }
+                if ($product['expires_on'] < $todaydate) {
+                    NotificationHelper::errorResponse($lottery->lotteryMaster->lottery_name . ' Lottery expired, Please remove from cart.');
+                    return back();
+                }
             }
 
             $totalCartPrice = CartHelper::totalCartPrice();
@@ -201,6 +206,24 @@ class LotteryController extends Controller
             return redirect()->route('home');
         } else {
             return back();
+        }
+    }
+
+    public function showResult($lotteryId)
+    {
+        try {
+            $user = Auth::user();
+            $data = Cart::where('user_id', $user->id)->where('lottery_id', $lotteryId)->where('order_id', '!=', null)->first();
+            $lottery = Lottery::find($lotteryId);
+
+            $winning_number = explode(',', $lottery['winning_number']);
+            $checked_lottery_numbers = explode(',', $data['checked_lottery_numbers']);
+
+            $equalNumbers = array_intersect($winning_number, $checked_lottery_numbers);
+            // dd($checked_lottery_numbers, $winning_number, $equalNumbers);
+            return view('user.lottery.lotteryresult', compact('equalNumbers', 'winning_number'));
+        } catch (Exception $e) {
+            NotificationHelper::errorResponse($e->getLine(), $e->getMessage());
         }
     }
 }

@@ -103,9 +103,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
         Route::get('/process-checkout', [UserLotteryController::class, 'processCheckout'])->name('process-checkout');
         Route::post('/saveChosenNumbers', [UserLotteryController::class, 'saveChosenNumbers'])->name('saveChosenNumbers');
         Route::get('/showChosenNumbers/{lotteryId}', [UserLotteryController::class, 'showChosenNumbers'])->name('showChosenNumbers');
-        Route::get('/show-result', function () {
-            return view('user.lottery.lotteryresult');
-        });
+        Route::get('/show-result/{lotteryId}', [UserLotteryController::class, 'showResult'])->name('show-result');
     });
 
     Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function () {
@@ -144,6 +142,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'r
         Route::get('/create', [LotteryController::class, 'lotteryCreate'])->name('create');
         Route::post('/store', [LotteryController::class, 'lotteryStore'])->name('store');
         Route::get('/show', [LotteryController::class, 'lotteryShow'])->name('show');
+        Route::get('/edit', [LotteryController::class, 'lotteryEdit'])->name('edit');
+        Route::post('/update', [LotteryController::class, 'lotteryUpdate'])->name('update');
         Route::get('/showChosenNumbers/{lotteryId}', [LotteryController::class, 'lotteryShowChosenNumbers'])->name('showChosenNumbers');
     });
 

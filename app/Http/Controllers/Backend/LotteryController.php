@@ -73,7 +73,7 @@ class LotteryController extends Controller
     }
 
 
-    public function lotteryindex()
+    public function lotteryIndex()
     {
         $data = Lottery::all();
         return view('backend.lottery.index', compact('data'));
@@ -113,6 +113,47 @@ class LotteryController extends Controller
             dd($e->getLine(), $e->getMessage());
         }
     }
+
+    public function lotteryEdit(Request $request)
+    {
+
+        if (!$request->query('lottery_id')) {
+            NotificationHelper::errorResponse("Malformed Url!");
+            return redirect()->route('admin.lottery.index');
+        }
+
+        $lottery = Lottery::find($request->query('lottery_id'));
+        // dd($lottery->lotteryMaster->lottery_name);
+        if (!$lottery) {
+            NotificationHelper::errorResponse("Lottery not found!");
+            return redirect()->route('admin.lottery.index');
+        }
+
+        return view('backend.lottery.edit', compact('lottery'));
+    }
+
+    public function lotteryUpdate(Request $request)
+    {
+
+
+        if (!$request->lottery_id) {
+            NotificationHelper::errorResponse("Malformed Url!");
+            return redirect()->route('admin.lottery.index');
+        }
+
+        $lottery = Lottery::find($request->lottery_id);
+        // dd($lottery->lotteryMaster->lottery_name);
+        if (!$lottery) {
+            NotificationHelper::errorResponse("Lottery not found!");
+            return redirect()->route('admin.lottery.index');
+        }
+
+        $lottery->winning_number = $request->winning_number;
+        $lottery->save();
+        NotificationHelper::successResponse("Lottery Updated succesfully");
+        return redirect()->route('admin.lottery.index');
+    }
+
 
 
     public function lotteryShow(Request $request)
