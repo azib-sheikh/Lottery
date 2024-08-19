@@ -81,13 +81,25 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                         <div class="row">
+                            <div class="col-md-12">
+                                <a href="{{url('user/wallet')}}" class="small-box-footer d-block">
+                                    <div class="info-box bg-gradient-info">
+                                        <span class="info-box-icon"><i class="fa-solid fa-wallet"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text ">My Balance</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                     <a href="{{ route('user.lottery.index') }}" class="small-box-footer d-block">
                                         <div class="info-box bg-gradient-success">
                                             <span class="info-box-icon"><i class="fa-solid fa-dice-d20"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Lotteries</span>
+                                                <span class="info-box-text">My Lotteries</span>
                                             </div>
                                         </div>
                                     </a>

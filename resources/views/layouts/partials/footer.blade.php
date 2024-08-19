@@ -76,7 +76,7 @@
         <i class="fa-solid fa-arrow-turn-up"></i>
     </a>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- jQuery js -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <!-- bootstrap js -->
@@ -88,28 +88,27 @@
 <!-- lottery js initialize -->
 <script src="{{ asset('assets/js/lotteries-initialization.js') }}"></script>
 
- <!-- Scripts -->
- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
- <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<!-- Scripts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
- <!-- Laravel Javascript Validation -->
- <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+<!-- Laravel Javascript Validation -->
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-            const openCartBtn = document.getElementById('open-cart-btn');
-            const closeCartBtn = document.getElementById('close-cart-btn');
-            const cartOverlay = document.querySelector('.cart-overlay');
-            const addToCart  = document.getElementById('continueToCart');
+        const openCartBtn = document.getElementById('open-cart-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartOverlay = document.querySelector('.cart-overlay');
+        const addToCart = document.getElementById('continueToCart');
 
-            openCartBtn.addEventListener('click', function() {
-                cartOverlay.classList.add('active');
-            });
-
-            closeCartBtn.addEventListener('click', function() {
-                cartOverlay.classList.remove('active');
-            });
+        openCartBtn.addEventListener('click', function() {
+            cartOverlay.classList.add('active');
         });
 
+        closeCartBtn.addEventListener('click', function() {
+            cartOverlay.classList.remove('active');
+        });
+    });
 </script>
