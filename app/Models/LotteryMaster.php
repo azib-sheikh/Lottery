@@ -11,4 +11,9 @@ class LotteryMaster extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'lottery_master';
+
+    public function lottery()
+    {
+        return $this->hasMany(Lottery::class);
+    }
 }
