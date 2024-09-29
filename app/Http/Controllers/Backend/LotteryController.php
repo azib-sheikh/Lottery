@@ -6,6 +6,7 @@ use DB;
 use Exception;
 use Validator;
 use Carbon\Carbon;
+use App\Models\Cart;
 use App\Models\Lottery;
 use App\Models\LotteryNumber;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class LotteryController extends Controller
 {
     public function lotteryMasterIndex()
     {
-        $data = LotteryMaster::all();
+        $data = LotteryMaster::latest()->get();
         return view('backend.lotteryMaster.index', compact('data'));
     }
 
@@ -75,13 +76,13 @@ class LotteryController extends Controller
 
     public function lotteryIndex()
     {
-        $data = Lottery::all();
+        $data = Lottery::latest()->get();
         return view('backend.lottery.index', compact('data'));
     }
 
     public function lotteryCreate()
     {
-        $lotteryMaster = LotteryMaster::all();
+        $lotteryMaster = LotteryMaster::whereDoesntHave('lottery')->latest()->get();
         return view('backend.lottery.create', compact('lotteryMaster'));
     }
 
@@ -169,7 +170,31 @@ class LotteryController extends Controller
             return redirect()->route('admin.lottery.index');
         }
 
-        return view('backend.lottery.show', compact('lottery'));
+        $cartItemByLotteryId = Cart::where('lottery_id', $request->query('lottery_id'))->get();
+        // dd($cartItemByLotteryId);
+        $numberCounts = []; // To store the frequency of each number
+
+        // Loop through each record
+        foreach ($cartItemByLotteryId as $record) {
+            // Convert the string of lottery numbers into an array of integers
+            $numbers = array_map('intval', explode(',', $record['checked_lottery_numbers']));
+
+            // Count the occurrences of each number
+            foreach ($numbers as $number) {
+                if (isset($numberCounts[$number])) {
+                    $numberCounts[$number]++;
+                } else {
+                    $numberCounts[$number] = 1;
+                }
+            }
+        }
+        // dd($numberCounts);
+        // // Display the frequency of each number
+        // foreach ($numberCounts as $number => $count) {
+        //     echo "Number " . $number . " is selected " . $count . " times.\n";
+        // }
+
+        return view('backend.lottery.show', compact('lottery', 'numberCounts'));
     }
 
     public function lotteryShowChosenNumbers($lotteryId)

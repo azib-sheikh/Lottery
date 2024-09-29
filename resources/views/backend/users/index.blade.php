@@ -32,7 +32,8 @@
                                             <th class="text-center">Mobile</th>
                                             <th class="text-center">Gender</th>
                                             <th class="text-center">Role</th>
-                                            <th class="text-center">Creation Date</th>
+                                            <!-- <th class="text-center">Creation Date</th> -->
+                                            <th class="text-center">Wallet Bal</th>
                                             <th class="text-center">Date of Birth</th>
                                         </tr>
                                     </thead>
@@ -50,7 +51,8 @@
                                             <td class="text-center">{{ $user->mobile }}</td>
                                             <td class="text-center">{{ $user->gender }}</td>
                                             <td class="text-center">{{ ucfirst($user->roles->pluck('name')[0]) }}</td>
-                                            <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y g:i A') }}</td>
+                                            <!-- <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y g:i A') }}</td> -->
+                                            <td class="text-center">{{ $user->walletBalance}}</td>
                                             <td class="text-center">{{ $user->date_of_birth }}</td>
                                         </tr>
                                         @endforeach

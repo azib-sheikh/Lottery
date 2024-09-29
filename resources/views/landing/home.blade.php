@@ -565,6 +565,7 @@ if ($lottery->isNotEmpty()) {
                 var lottery_winning_amount = $result['lottery_winning_amount'];
                 var lottery_winning_amount = $result['lottery_winning_amount'];
                 var expires_on = $result['expires_on'];
+                var expires_on_timer = $result['expires_on_timer'];
                 var lotteryNumbersArray = $result['lotteryNumbersArray'];
                 var lotteryWinningAmountArray = $result['lotteryWinningAmountArray'];
                 var lottery_image = $result['lottery_image'];
@@ -572,66 +573,52 @@ if ($lottery->isNotEmpty()) {
                 $('#lottery_name').html(lottery_name);
                 $('#lottery_price').html(lottery_price);
                 $('#lottery_image').attr('src', lottery_image);
-                $('#expires_on').html("Lottery open at :" + expires_on);
+                $('#expires_on').html("Lottery open at : " + expires_on);
                 $('#lotteryNumbersArray').html(lotteryNumbersArray);
                 $('#lotteryWinningAmountArray').html(lotteryWinningAmountArray);
-                setDateForTimer(expires_on);
+                setDateForTimer(expires_on_timer);
             }
         })
     }
 </script>
+
 <script>
-    function setDateForTimer(expires_on) {
+    var countdown; // Declare a global variable to store the interval ID
 
-        const dt = new Date(expires_on);
-        const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
-        console.log("expires_on=" + expires_on)
-        // console.log("s=" + `${dt.getFullYear()}-${padL(dt.getDate())}-${padL(dt.getMonth()+1)} ${padL(dt.getHours())}:${padL(dt.getMinutes())}`);
-        var countDownDateF = `${dt.getFullYear()}-${padL(dt.getDate())}-${padL(dt.getMonth()+1)} ${padL(dt.getHours())}:${padL(dt.getMinutes())}`;
-        console.log("countDownDateF=" + countDownDateF)
-        // Set the date we're counting down to
-        // var countDownDate = new Date('2024-07-11 18:00').getTime();
+    function setDateForTimer(expires_on_timer) {
 
-        var countDownDate = new Date(countDownDateF).getTime();
-        console.log("countDownDate=" + countDownDate)
+        // Clear any existing interval to avoid multiple timers running simultaneously
+        if (countdown) {
+            clearInterval(countdown);
+        }
+        // Set the target date and time
+        var targetDate = new Date(expires_on_timer).getTime();
 
-        // Update the count down every 1 second
-        var x = setInterval(function() {
-
-            // Get today's date and time
+        // Update the countdown every second
+        countdown = setInterval(function() {
+            // console.log('expires_on_timer=' + expires_on_timer);
+            // console.log('targetDate=' + targetDate);
+            // Get current date and time
             var now = new Date().getTime();
 
-            // Find the distance between now and the count down date
-            var distance = countDownDate - now;
+            // Calculate the time difference between now and the target date
+            var remainingTime = targetDate - now;
+            // console.log('remainingTime=' + remainingTime);
+            // Calculate days, hours, minutes, and seconds
+            var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-            // Time calculations for days, hours, minutes and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Display the result in the "timer" element
+            document.getElementById("multiTimer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
-            // Display the result in the element with id="multiTimer"
-            document.getElementById("multiTimer").innerHTML = days + "d " + hours + "h " +
-                minutes + "m " + seconds + "s ";
-
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("multiTimer").innerHTML = "Result declared!";
+            // If the countdown is over, display a message and clear the interval
+            if (remainingTime < 0) {
+                clearInterval(countdown);
+                document.getElementById("multiTimer").innerHTML = "EXPIRED";
             }
         }, 1000);
-    }
-
-    function formatDate(date) {
-        var d = new Date(date),
-            day = '' + (d.getMonth() + 1),
-            month = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-
-        return [year, month, day].join('-');
     }
 </script>
 @endpush

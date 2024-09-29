@@ -34,8 +34,17 @@
                                     $numbersPerColumn = ceil($totalNumbers / $columns);
                                     @endphp
 
-                                    @for ($i = 0; $i < $numbersPerColumn; $i++) <tr>
-                                        @for ($j = 0; $j < $columns; $j++) @php $index=$i + $j * $numbersPerColumn; @endphp @if ($index < $totalNumbers) <td>{{ $lottery->lotteryNumbers[$index]->number }}</td>
+                                    @for ($i = 0; $i < $numbersPerColumn; $i++)
+                                        <tr>
+                                        @for ($j = 0; $j < $columns; $j++)
+                                            @php $index=$i + $j * $numbersPerColumn;
+                                            @endphp
+                                            @if ($index < $totalNumbers)
+                                            @if($numberCounts && array_key_exists($lottery->lotteryNumbers[$index]->number,$numberCounts))
+                                            <td>{{ $lottery->lotteryNumbers[$index]->number }} X {{$numberCounts[$lottery->lotteryNumbers[$index]->number]}} times</td>
+                                            @else
+                                            <td>{{ $lottery->lotteryNumbers[$index]->number }} X (0 times)</td>
+                                            @endif
                                             @endif
                                             @endfor
                                             </tr>

@@ -49,7 +49,7 @@ class HomeController extends Controller
             ? asset('profile.png')
             : asset($lottery->lotteryMaster->lottery_image);
 
-        $expires_on = Carbon::parse($lottery->expires_on)->format('d-m-Y H:i');
+        $expires_on = Carbon::parse($lottery->expires_on)->format('d-m-Y g:i A');
 
         $data = [];
         $data['lottery_name'] = $lottery->lotteryMaster->lottery_name;
@@ -59,8 +59,9 @@ class HomeController extends Controller
         $data['lottery_image'] = $lottery_image;
         $data['lotteryNumbersArray'] = $lotteryNumbersArray;
         $data['expires_on'] = $expires_on;
+        $data['expires_on_timer'] = $lottery->expires_on;
         $data['lotteryWinningAmountArray'] = $lotteryWinningAmountArray;
         return $data;
-        dd($data);
+        // dd($data);
     }
 }
