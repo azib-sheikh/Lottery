@@ -13054,3 +13054,29 @@ ul {
     display: flex;
     flex-direction: column;
 }
+.money-form {
+    padding: 30px 20px;
+    background-color: #f0f8ff47;
+}
+.input-label {
+    font-family: "Barlow Condensed", sans-serif;
+    color: #fff;
+    display: inline-block;
+    height: 60px;
+    line-height: 56px;
+    background: linear-gradient(223.14deg, #f44a33 -17.3%, #e8ae3d 101.56%);
+    -webkit-box-shadow: 0px 9px 37px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 9px 37px rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: capitalize;
+    padding: 0 35px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+    outline: none;
+    border: none;
+    height: 50px;
+    line-height: 46px;
+}
