@@ -86,7 +86,8 @@ class LotteryController extends Controller
             foreach ($getAllProductFromCart as $product) {
                 $lottery = Lottery::where('id', $product['lottery_id'])->first();
                 $todaydate = date('Y-m-d h:i:00');
-                if ($product['expires_on'] < $todaydate) {
+                // dd($lottery, $lottery['expires_on'], $todaydate);
+                if ($lottery['expires_on'] < $todaydate) {
                     NotificationHelper::errorResponse($lottery->lotteryMaster->lottery_name . ' Lottery expired, Please remove from cart.');
                     return back();
                 }

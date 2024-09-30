@@ -13054,3 +13054,49 @@ ul {
     display: flex;
     flex-direction: column;
 }
+.money-form {
+    padding: 30px 20px;
+    background-color: #f0f8ff47;
+}
+#fileLabel.input-label {
+    font-family: "Barlow Condensed", sans-serif;
+    color: #fff;
+    display: inline-block;
+    height: 60px;
+    line-height: 56px;
+    background: linear-gradient(223.14deg, #f44a33 -17.3%, #e8ae3d 101.56%);
+    -webkit-box-shadow: 0px 9px 37px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 9px 37px rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 400 !important;
+    text-transform: capitalize;
+    padding: 0 35px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+    outline: none;
+    border: none;
+    height: 50px;
+    line-height: 46px;
+}
+.pay-toggle {
+    border: 1px solid;
+    position: absolute;
+    right: 5px;
+    width: 50px;
+    height: 25px;
+    border-radius: 25px;
+    padding: 2px;
+}
+.toggle-pay {
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: #0d6efd;
+    transition: all 300ms ease-in;
+    transform: translateX(2px);
+}
+input#ccpay:checked + .toggle-pay {
+    transform: translateX(23px);
+}

@@ -103,7 +103,7 @@
 
             <div class="row mt-5">
 
-                <div class="col-md-6">
+                <div class="col-md-6 p-3">
                     <div class="my-balance">
                         <p class="mb-1">Avaiable Balance</p>
                         <div class="wallet-amount">
@@ -289,9 +289,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 p-md-3">
-                    <div class="my-balance w">
-                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <div class="col-md-6 p-3">
+                    <div class="my-balance ">
+                        <ul class="nav nav-pills mb-3 position-relative" id="pills-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-deposit" role="tab" aria-controls="pills-deposit" aria-selected="true">Deposit Money</a>
                             </li>
@@ -299,24 +299,65 @@
                                 <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-withdraw" role="tab" aria-controls="pills-withdraw" aria-selected="false">Withdraw Money</a>
                             </li>
 
+                            <div class="pay-toggle">
+                                <input type="checkbox" name="ccpay" id="ccpay" hidden>
+                                <label for="ccpay" class="toggle-pay"></label>
+                            </div>
+
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-deposit" role="tabpanel" aria-labelledby="pills-deposit-tab">
-                                <div class="money-form ">
+                                <div class="money-form bank-transfer">
+                                    
                                     <form action="{{route('user.wallet.deposit-amount')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row mb-5">
-                                            <div class="col-8">
+                                            <div class="col-8 mb-3">
+                                                <label for="">Banking QR <br>Scan to pay</label>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="qr-container">
+                                                    <img src="{{asset('assets/img/qrcode.png')}}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 mb-3">
                                                 <label for="">Enter Amount</label>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-md-4 mb-3">
                                                 <input class="form-control" type="number" name="deposit_amount" id="" required>
                                             </div>
-                                            <div class="col-4">
+                                             <div class="col-md-8 mb-3">
+                                                <label for="">Reference Number</label>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
                                                 <input class="form-control" type="text" name="payment_reference_number" id="" placeholder="Payment Reference Number" required>
                                             </div>
-                                            <div class="col-4">
-                                                <input class="form-control" type="file" name="payment_image" id="" accept="image/x-png,image/gif,image/jpeg" required>
+                                             <div class="col-md-8 mb-3">
+                                                <label for="">Payment Slip </label>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <input hidden class="form-control" type="file" name="payment_image" id="slipSS" accept="image/x-png,image/gif,image/jpeg" required>
+                                                <label id="fileLabel" class="input-label" for="slipSS">Browse File</label>
+                                            </div>
+                                        </div>
+                                        <button class="btn-pok mid" type="submit">Deposit Money</button>
+                                    </form>
+                                </div>
+                                <div class="money-form payment-gateway d-none">
+                                    
+                                    <form action="{{route('user.wallet.deposit-amount')}}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row mb-5">
+                                           
+                                            <div class="col-md-8 mb-3">
+                                                <label for="">Enter Amount</label>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <input class="form-control" type="number" name="deposit_amount" id="" required>
+                                            </div>
+                                             
+                                            <div class="col-12 mt-3">
+                                                Pay with UPI or Credit Debit cards
                                             </div>
                                         </div>
                                         <button class="btn-pok mid" type="submit">Deposit Money</button>
@@ -329,10 +370,10 @@
                                     <form action="{{route('user.wallet.withdraw-amount')}}" method="POST">
                                         @csrf
                                         <div class="row mb-5">
-                                            <div class="col-8">
+                                            <div class="col-md-8">
                                                 <label for="">Enter Amount</label>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-md-4">
                                                 <input class="form-control" type="number" name="withdraw_amount" id="" required>
                                             </div>
                                             <div class="col-12 text-right mt-2">
@@ -351,5 +392,37 @@
         </div>
     </div>
 </div>
+
+@endsection
+@section('script')
+
+<script>
+    document.getElementById('slipSS').addEventListener('change', function() {
+        var fileInput = document.getElementById('slipSS');
+        var fileLabel = document.getElementById('fileLabel');
+
+        if (fileInput.files.length > 0) {
+            var fileName = fileInput.files[0].name;
+            if (fileName.length > 10) {
+                fileName = fileName.substring(0, 8) + '...';  // Show first 10 letters and add '...'
+            }
+            fileLabel.textContent = fileName;
+        } else {
+            fileLabel.textContent = 'Browse File';  // Reset label if no file is selected
+        }
+    });
+ var toggleInput = document.querySelector('#ccpay'); 
+    toggleInput.addEventListener('change', function() {
+        if (toggleInput.checked) { 
+            document.querySelector('.bank-transfer').classList.add('d-none');
+            document.querySelector('.payment-gateway').classList.remove('d-none');
+        } else {
+            document.querySelector('.bank-transfer').classList.remove('d-none');
+            document.querySelector('.payment-gateway').classList.add('d-none');
+        }
+    });
+
+
+</script>
 
 @endsection
