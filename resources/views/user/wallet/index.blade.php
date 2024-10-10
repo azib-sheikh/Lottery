@@ -428,7 +428,7 @@
 
                             <div class="pay-toggle">
                                 <input type="checkbox" name="ccpay" id="ccpay" hidden>
-                                <label for="ccpay" class="toggle-pay"></label>
+                                <label for="ccpay" class="toggle-pay" title="UPI/Card payment"></label>
                             </div>
 
                         </ul>
