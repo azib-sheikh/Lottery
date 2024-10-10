@@ -59,6 +59,8 @@
                                             <td class="text-center">neft/rtgs/imps to deposit amount</td>
                                             @elseif($transactions['mode_of_payment'] == 3)
                                             <td class="text-center">Wallet to buy lottery </td>
+                                            @elseif($transactions['mode_of_payment'] == 4)
+                                            <td class="text-center">Razorpay payout </td>
                                             @endif
 
                                             <td class="text-center">

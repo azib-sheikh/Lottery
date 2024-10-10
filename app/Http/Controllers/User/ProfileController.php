@@ -5,15 +5,25 @@ namespace App\Http\Controllers\user;
 use DB;
 use Validator;
 use App\Models\User;
+use App\Models\PayoutDetail;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\AdditionalDetailsUser;
 use App\Http\Helpers\NotificationHelper;
+use App\Services\RazorpayService;
 
 class ProfileController extends Controller
 {
+
+    protected $razorpayService;
+
+    public function __construct(RazorpayService $razorpayService)
+    {
+        $this->razorpayService = $razorpayService;
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -92,6 +102,39 @@ class ProfileController extends Controller
                     }
 
                     $additionalDetails->save();
+
+                    // Create account for payout start
+
+
+                    $payoutDetail = PayoutDetail::where('user_id', Auth::user()->id)->first();
+                    if ($payoutDetail && $payoutDetail['contact_id']) {
+                        $bank_data_for_payout = [
+
+                            'contact_id' => $payoutDetail['contact_id'],
+                            'account_holder_name' => $user->name,
+                            'account_number' => $request->account_number,
+                            "ifsc" => $request->ifsc_code,
+                        ];
+                        $resFundAcc = $this->createFundAccount($bank_data_for_payout);
+                        if ($resFundAcc && $resFundAcc->status() == 200) {
+                            $data = $resFundAcc->original;
+                            // dd($data);
+                            // dd($data['error']);
+                            if (isset($data) && array_key_exists('error', $data) && $data['error']['code'] == 'BAD_REQUEST_ERROR') {
+                                NotificationHelper::errorResponse($data['error']['description']);
+                                return back();
+                            } else {
+                                $payoutDetail->fund_account_id = $data['id'];
+                                $payoutDetail->save();
+                            }
+                        }
+                    } else {
+                        NotificationHelper::errorResponse('Razorpay Contact ID is not updated.');
+                        return back();
+                    }
+
+                    // Create account for payout end
+
                 }
 
                 $user->save();
@@ -103,5 +146,20 @@ class ProfileController extends Controller
             dd($e->getLine(), $e->getMessage());
             return back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
+    }
+
+    // 2. Create Fund Account API
+    public function createFundAccount($bank_data_for_payout)
+    {
+
+        $request = (object) $bank_data_for_payout;
+        $response = $this->razorpayService->createFundAccount(
+            $request->contact_id,
+            $request->account_holder_name,
+            $request->account_number,
+            $request->ifsc
+        );
+
+        return response()->json($response);
     }
 }

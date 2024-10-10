@@ -1,5 +1,5 @@
 <footer class="main-footer text-center">
-  <strong>Developed by Ashutosh</strong>
+  <strong>Developed by Abdullah</strong>
 </footer>
 
 <!-- Control Sidebar -->
