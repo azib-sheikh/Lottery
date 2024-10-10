@@ -7,6 +7,7 @@ use Hash;
 use Exception;
 use Validator;
 use App\Models\User;
+use App\Models\PayoutDetail;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -14,9 +15,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AdminLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Helpers\NotificationHelper;
+use App\Services\RazorpayService;
 
 class AuthController extends Controller
 {
+    protected $razorpayService;
+
+    public function __construct(RazorpayService $razorpayService)
+    {
+        $this->razorpayService = $razorpayService;
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -67,9 +76,34 @@ class AuthController extends Controller
                 $user->referred_by = $referred_by;
                 $user->password = Hash::make($request->password);
                 $user->save();
+                $user_id = $user->id;
                 $role = Role::where('name', '=', 'user')->first();
                 $user->assignRole($role);
+
+                // Create account for payout start
+                $data_for_payout = [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'contact' => $request->mobile,
+                    "type" => "customer",
+                    "reference_id" => "contact_id_" . $user_id,
+                ];
+                $rescreateContact = $this->createContact($data_for_payout);
+                if ($rescreateContact->status() == 200) {
+                    $data = $rescreateContact->original;
+                    $payoutDetail = new PayoutDetail;
+
+                    $payoutDetail->user_id = $user_id;
+                    $payoutDetail->contact_id = $data['id'];
+                    $payoutDetail->reference_id = $data['reference_id'];
+                    $payoutDetail->type = $data['type'];
+                    $payoutDetail->save();
+                }
+
+                // Create account for payout end
             });
+
+
             NotificationHelper::successResponse('Account created successfully! Login to continue');
             return redirect()->route('auth.login');
         } catch (\Exception $e) {
@@ -143,4 +177,51 @@ class AuthController extends Controller
 
         return $code;
     }
+
+    // 1. Create Contact API
+    public function createContact($user_data)
+    {
+        $user_data = (object) $user_data;
+        $response = $this->razorpayService->createContact(
+            $user_data->name,
+            $user_data->email,
+            $user_data->contact,
+            $user_data->type ?? 'vendor',
+            $user_data->reference_id ?? null
+        );
+
+        return response()->json($response);
+    }
+
+    // 2. Create Fund Account API
+    // public function createFundAccount(Request $request)
+    // {
+
+    //     $response = $this->razorpayService->createFundAccount(
+    //         $request->contact_id,
+    //         $request->account_holder_name,
+    //         $request->account_number,
+    //         $request->ifsc
+    //     );
+
+    //     return response()->json($response);
+    // }
+
+    // 3. Create Payout API
+    // public function createPayout(Request $request)
+    // {
+    //     $request->validate([
+    //         'fund_account_id' => 'required',
+    //         'amount' => 'required|numeric',
+    //     ]);
+
+    //     $response = $this->razorpayService->createPayout(
+    //         $request->fund_account_id,
+    //         $request->amount,
+    //         $request->currency ?? 'INR',
+    //         $request->mode ?? 'IMPS'
+    //     );
+
+    //     return response()->json($response);
+    // }
 }

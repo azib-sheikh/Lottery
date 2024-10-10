@@ -78,6 +78,133 @@
         margin-top: 15px;
     }
 </style>
+
+<!-- card input box start -->
+<style type="text/css">
+    .pac-container.pac-logo {
+        top: 867px !important;
+    }
+
+    #spl-link {
+        color: blue !important;
+        text-decoration: underline !important;
+    }
+
+    .payment-option-container {
+        padding: 15px 8px;
+        border: 1px solid #decfcf;
+        position: relative;
+    }
+
+    .paymentSectionCDCard {
+        border: 1px solid #decfcf;
+
+    }
+
+
+
+    .cards-img-container {
+        display: flex;
+        justify-content: space-around;
+        position: absolute;
+        right: 8px;
+    }
+
+    .cards-img-container img {
+        margin-right: 10px;
+    }
+
+
+
+    .message_message__title__65190 {
+        color: #141414;
+        font-size: 16px;
+        letter-spacing: normal;
+        line-height: 22px;
+        margin-top: 0;
+        font-weight: 700;
+        margin-bottom: 0;
+        text-transform: none;
+    }
+
+
+    .card-js-bottom {
+        height: 40px;
+        background-color: #efefef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-js-secure-img {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+    }
+
+
+    #baycard-confirm {
+        margin-top: 0px;
+    }
+
+    #baycard-terms {
+        margin-top: -135px;
+        margin-left: 40px;
+    }
+
+    .message_message--warning__25807 {
+        background-color: #fff9ec;
+        border-left: 4px solid #ffb017;
+
+    }
+
+    .message_message__6f6be {
+        display: flex;
+        flex-direction: row;
+        padding: 16px 12px;
+    }
+
+    .message_message__icon__45e1a {
+        display: flex;
+    }
+
+    .message_message__content--spacing__c567f {
+        padding-left: 12px;
+    }
+
+    .warning-container {
+        padding: 20px 40px 0px;
+    }
+
+    .adj-mar {
+        margin-left: 5px;
+        margin-top: 25px;
+        width: 122%;
+    }
+
+    @media screen and (max-width: 767px) {
+        .pac-container.pac-logo {
+            top: 1058px !important;
+        }
+    }
+
+    @media screen and (max-width:480px) {
+        .warning-container {
+            padding: 20px 15px 0px;
+        }
+
+
+        #baycard-terms {
+            margin-top: -135px;
+            margin-left: 15px;
+        }
+
+        .cards-img-container img {
+            max-width: 150px;
+        }
+    }
+</style>
+<!-- card input end -->
 @endsection
 
 
@@ -301,14 +428,14 @@
 
                             <div class="pay-toggle">
                                 <input type="checkbox" name="ccpay" id="ccpay" hidden>
-                                <label for="ccpay" class="toggle-pay"></label>
+                                <label for="ccpay" class="toggle-pay" title="UPI/Card payment"></label>
                             </div>
 
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-deposit" role="tabpanel" aria-labelledby="pills-deposit-tab">
                                 <div class="money-form bank-transfer">
-                                    
+
                                     <form action="{{route('user.wallet.deposit-amount')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row mb-5">
@@ -326,13 +453,13 @@
                                             <div class="col-md-4 mb-3">
                                                 <input class="form-control" type="number" name="deposit_amount" id="" required>
                                             </div>
-                                             <div class="col-md-8 mb-3">
+                                            <div class="col-md-8 mb-3">
                                                 <label for="">Reference Number</label>
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <input class="form-control" type="text" name="payment_reference_number" id="" placeholder="Payment Reference Number" required>
                                             </div>
-                                             <div class="col-md-8 mb-3">
+                                            <div class="col-md-8 mb-3">
                                                 <label for="">Payment Slip </label>
                                             </div>
                                             <div class="col-md-4 mb-3">
@@ -343,27 +470,36 @@
                                         <button class="btn-pok mid" type="submit">Deposit Money</button>
                                     </form>
                                 </div>
+                                <!--Deposit amoutn with online start-->
                                 <div class="money-form payment-gateway d-none">
-                                    
-                                    <form action="{{route('user.wallet.deposit-amount')}}" method="POST" enctype="multipart/form-data">
+
+                                    <form action="" method="POST" enctype="">
                                         @csrf
                                         <div class="row mb-5">
-                                           
+
                                             <div class="col-md-8 mb-3">
                                                 <label for="">Enter Amount</label>
                                             </div>
                                             <div class="col-md-4 mb-3">
-                                                <input class="form-control" type="number" name="deposit_amount" id="" required>
+                                                <input class="form-control deposit_amount_by_razorpay" type="number" name="deposit_amount" id="" required>
                                             </div>
-                                             
+
                                             <div class="col-12 mt-3">
                                                 Pay with UPI or Credit Debit cards
                                             </div>
+
+                                            <div class="col-12 mt-3">
+                                                <h2>Payment options</h2>
+                                                <p>Please choose the appropriate Payment Method from the list below</p>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <img src="{{asset('assets/img/payment/payment-method.png')}}" alt="#">
+                                            </div>
                                         </div>
-                                        <button class="btn-pok mid" type="submit">Deposit Money</button>
+                                        <button class="btn-pok mid razorpay_btn" type="button">Deposit With RazorPay</button>
                                     </form>
                                 </div>
-
+                                <!--Deposit amoutn with online end-->
                             </div>
                             <div class="tab-pane fade" id="pills-withdraw" role="tabpanel" aria-labelledby="pills-withdraw-tab">
                                 <div class="money-form ">
@@ -404,16 +540,17 @@
         if (fileInput.files.length > 0) {
             var fileName = fileInput.files[0].name;
             if (fileName.length > 10) {
-                fileName = fileName.substring(0, 8) + '...';  // Show first 10 letters and add '...'
+                fileName = fileName.substring(0, 8) + '...'; // Show first 10 letters and add '...'
             }
             fileLabel.textContent = fileName;
         } else {
-            fileLabel.textContent = 'Browse File';  // Reset label if no file is selected
+            fileLabel.textContent = 'Browse File'; // Reset label if no file is selected
         }
     });
- var toggleInput = document.querySelector('#ccpay'); 
+    var toggleInput = document.querySelector('#ccpay');
     toggleInput.addEventListener('change', function() {
-        if (toggleInput.checked) { 
+        $('.paymentSectionCDCard').hide();
+        if (toggleInput.checked) {
             document.querySelector('.bank-transfer').classList.add('d-none');
             document.querySelector('.payment-gateway').classList.remove('d-none');
         } else {
@@ -421,8 +558,7 @@
             document.querySelector('.payment-gateway').classList.add('d-none');
         }
     });
-
-
 </script>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 @endsection
