@@ -29,6 +29,7 @@ Route::get('/clear-cache', function () {
     $exitCode = \Artisan::call('cache:clear');
     $exitCode = \Artisan::call('config:cache');
     $exitCode = \Artisan::call('view:clear');
+    $exitCode = \Artisan::call('optimize:clear');
 
     echo "cache,config,route,view clear succesfully";
     // return what you want
@@ -115,6 +116,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
         Route::get('/', [UserTransactionController::class, 'wallet'])->name('show-wallet');
         Route::post('/deposit-amount', [UserTransactionController::class, 'depositAmount'])->name('deposit-amount');
         Route::post('/withdraw-amount', [UserTransactionController::class, 'withdrawAmount'])->name('withdraw-amount');
+        Route::post('/proceed-to-pay', [UserTransactionController::class, 'razorPayCheck']);
     });
 });
 
