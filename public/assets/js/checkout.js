@@ -28,7 +28,7 @@ $(document).ready(function () {
                 data: data,
                 success: function (response) {
                     var options = {
-                        key: "rzp_test_6XXXXXXXXXX", // Enter the Key ID generated from the Dashboard
+                        key: "rzp_test_G4fe2pkpcv5Zg2", // Enter the Key ID generated from the Dashboard
                         amount: deposit_amount_by_razorpay * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                         currency: "INR",
                         name: response.name, //your business name
