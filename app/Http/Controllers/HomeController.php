@@ -17,6 +17,18 @@ class HomeController extends Controller
         // return $lottery->lotteryNumbers;
         return view('landing.home', compact('lottery'));
     }
+
+    public function landing_lottery()
+    {
+        $todaydate = date('Y-m-d h:i:00');
+
+        $lottery = Lottery::where('expires_on', '>=', $todaydate)->get();
+        // dd($lottery->isEmpty());
+        // return $lottery->lotteryNumbers;
+        return view('landing.lottery', compact('lottery'));
+    }
+
+
     public function lottery_details_ajax(Request $request)
     {
         // dd($request->all());

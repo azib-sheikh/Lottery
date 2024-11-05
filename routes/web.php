@@ -39,13 +39,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/lottery-details-ajax', [HomeController::class, 'lottery_details_ajax'])->name('home.lottery_details_ajax');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart');
 
+Route::get('/lottery', [HomeController::class, 'landing_lottery'])->name('landing.lottery');
+
 Route::get('/about-us', function () {
     return view('landing.about-us');
 })->name('landing.about-us');
 
-Route::get('/lottery', function () {
-    return view('landing.lottery');
-})->name('landing.lottery');
+// Route::get('/lottery', function () {
+//     return view('landing.lottery');
+// })->name('landing.lottery');
 
 Route::get('/contact-us', function () {
     return view('landing.contact-us');

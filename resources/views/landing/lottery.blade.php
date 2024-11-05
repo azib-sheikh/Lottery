@@ -1,5 +1,15 @@
 @extends('layouts.master')
 
+<?php
+
+if ($lottery->isNotEmpty()) {
+
+    $lottery_id = $lottery[0]->id;
+} else {
+    $lottery_id = 0;
+}
+?>
+
 @section('content')
 <!-- breadcrumb begin  -->
 <div class="breadcrumb-pok">
@@ -48,495 +58,205 @@
         <div class="part-picking-number">
             <div class="lotteries-selection-menu">
                 <ul>
+                    @if($lottery->isNotEmpty())
+                    <input type="hidden" id="set_lottery_id" value="">
+                    @foreach($lottery as $data)
                     <li>
-                        <a href="#0" class="single-lottery-item active">
+                        <a class="single-lottery-item active" lottery_id="{{$data->id}}" data-bs-toggle="tab" data-bs-target="#pills-numbers" type="button" role="tab">
                             <span class="lottery-icon">
-                                <img src="assets/img/lottery/euro-jackpot.png" alt="">
+                                <img src="{{ asset($data->lotteryMaster->lottery_image) }}" alt="">
                             </span>
-                            <span class="lottery-name">Euro Jackpot</span>
+                            <span class="lottery-name">{{ $data->lotteryMaster->lottery_name }}</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#0" class="single-lottery-item">
-                            <span class="lottery-icon">
-                                <img src="assets/img/lottery/euro-millions.png" alt="">
-                            </span>
-                            <span class="lottery-name">Euro Millions</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#0" class="single-lottery-item">
-                            <span class="lottery-icon">
-                                <img src="assets/img/lottery/ena-lotto.png" alt="">
-                            </span>
-                            <span class="lottery-name">Super Enalotto</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#0" class="single-lottery-item">
-                            <span class="lottery-icon">
-                                <img src="assets/img/lottery/keno.png" alt="">
-                            </span>
-                            <span class="lottery-name">Keno Lotto</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#0" class="single-lottery-item">
-                            <span class="lottery-icon">
-                                <img src="assets/img/lottery/illinois.png" alt="">
-                            </span>
-                            <span class="lottery-name">Illions Lotttery</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#0" class="single-lottery-item">
-                            <span class="lottery-icon">
-                                <img src="assets/img/lottery/new-jersey.png" alt="">
-                            </span>
-                            <span class="lottery-name">New Jersey</span>
-                        </a>
-                    </li>
+                    @endforeach
+                    @endif
+                    {{-- <li>
+                            <a class="single-lottery-item" data-bs-toggle="tab" data-bs-target="#singleLottery"
+                                type="button" role="tab">
+                                <span class="lottery-icon">
+                                    <img src="{{ asset('assets/img/lottery/euro-millions.png') }}" alt="">
+                    </span>
+                    <span class="lottery-name">Euro Millions</span>
+                    </a>
+                    </li> --}}
                 </ul>
             </div>
             <div class="animation-body animated">
                 <div class="picking-number-header">
-                    <img src="assets/img/lottery/lottery-header-right-img.png" alt="" class="lottery-bg-img">
+                    <img src="{{ asset('assets/img/lottery/lottery-header-right-img.png') }}" alt="" class="lottery-bg-img">
                     <div class="part-lottery-info">
                         <div class="part-img selected-lottery-logo">
-                            <img src="assets/img/lottery/euro-jackpot-big.png" alt="">
+                            <img id="lottery_image" src="{{ asset('assets/img/lottery/euro-jackpot-big.') }}" alt="">
                         </div>
                         <div class="part-text">
-                            <span class="lottery-name">Euro Jackpot</span>
-                            <span class="estimate-prize">Estimated prize : <span class="prize-amount">$25.0248</span></span>
+                            {{--<span class="lottery-name">{{ $lottery->lotteryMaster->lottery_name }}</span>--}}
+                            <span class="lottery-name" id="lottery_name"></span>
+                            <span class="estimate-prize">Estimated prize : <span class="prize-amount" id="lottery_price">00</span></span>
                         </div>
                     </div>
-                    <div class="part-lottery-function-btn">
+                    <div class="cd-wrapper">
+                        <span id="expires_on">{{--Lottery open at : {{ \Carbon\Carbon::parse($lottery->expires_on)->format('d-m-Y H:i') }}--}}</span>
+                        <span id="multiTimer"></span>
+                    </div>
+                    {{-- <div class="part-lottery-function-btn">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="pills-numbers-tab" data-bs-toggle="pill" data-bs-target="#pills-numbers" type="button" role="tab" aria-controls="pills-numbers" aria-selected="true">pick any 6 numbers</button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-winners-tab" data-bs-toggle="pill" data-bs-target="#pills-winners" type="button" role="tab" aria-controls="pills-winners" aria-selected="false">Winners</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-info-tab" data-bs-toggle="pill" data-bs-target="#pills-info" type="button" role="tab" aria-controls="pills-info" aria-selected="false">Prizes & info</button>
-                            </li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="picking-number-body">
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-numbers" role="tabpanel" aria-labelledby="pills-numbers-tab">
                             <div class="picking-number-palate">
-                                <div class="number-box common">
-                                    <button class="single-number">
-                                        01
-                                    </button>
-                                    <button class="single-number">
-                                        02
-                                    </button>
-                                    <button class="single-number">
-                                        03
-                                    </button>
-                                    <button class="single-number selected">
-                                        04
-                                    </button>
-                                    <button class="single-number">
-                                        05
-                                    </button>
-                                    <button class="single-number">
-                                        06
-                                    </button>
-                                    <button class="single-number">
-                                        07
-                                    </button>
-                                    <button class="single-number">
-                                        08
-                                    </button>
-                                    <button class="single-number">
-                                        09
-                                    </button>
-                                    <button class="single-number">
-                                        10
-                                    </button>
-                                    <button class="single-number">
-                                        11
-                                    </button>
-                                    <button class="single-number">
-                                        12
-                                    </button>
-                                    <button class="single-number">
-                                        13
-                                    </button>
-                                    <button class="single-number">
-                                        14
-                                    </button>
-                                    <button class="single-number">
-                                        15
-                                    </button>
-                                    <button class="single-number selected">
-                                        16
-                                    </button>
-                                    <button class="single-number">
-                                        17
-                                    </button>
-                                    <button class="single-number">
-                                        18
-                                    </button>
-                                    <button class="single-number">
-                                        19
-                                    </button>
-                                    <button class="single-number">
-                                        20
-                                    </button>
-                                    <button class="single-number">
-                                        21
-                                    </button>
-                                    <button class="single-number selected">
-                                        22
-                                    </button>
-                                    <button class="single-number">
-                                        23
-                                    </button>
-                                    <button class="single-number">
-                                        24
-                                    </button>
-                                    <button class="single-number">
-                                        25
-                                    </button>
-                                    <button class="single-number">
-                                        26
-                                    </button>
-                                    <button class="single-number">
-                                        27
-                                    </button>
-                                    <button class="single-number">
-                                        28
-                                    </button>
-                                    <button class="single-number">
-                                        29
-                                    </button>
-                                    <button class="single-number selected">
-                                        30
-                                    </button>
-                                    <button class="single-number">
-                                        31
-                                    </button>
-                                    <button class="single-number">
-                                        32
-                                    </button>
-                                    <button class="single-number">
-                                        33
-                                    </button>
-                                    <button class="single-number">
-                                        34
-                                    </button>
-                                    <button class="single-number">
-                                        35
-                                    </button>
-                                    <button class="single-number">
-                                        36
-                                    </button>
-                                    <button class="single-number">
-                                        37
-                                    </button>
-                                    <button class="single-number selected">
-                                        38
-                                    </button>
-                                    <button class="single-number">
-                                        39
-                                    </button>
-                                    <button class="single-number">
-                                        40
-                                    </button>
+                                <div class="number-box common" id="lotteryNumbersArray">
+
                                 </div>
-                                <div class="number-box special">
-                                    <button class="single-number">
-                                        01
-                                    </button>
-                                    <button class="single-number">
-                                        02
-                                    </button>
-                                    <button class="single-number">
-                                        03
-                                    </button>
-                                    <button class="single-number">
-                                        04
-                                    </button>
-                                    <button class="single-number">
-                                        05
-                                    </button>
-                                    <button class="single-number selected special">
-                                        06
-                                    </button>
-                                    <button class="single-number">
-                                        07
-                                    </button>
-                                    <button class="single-number">
-                                        08
-                                    </button>
-                                    <button class="single-number">
-                                        09
-                                    </button>
-                                    <button class="single-number">
-                                        10
-                                    </button>
-                                    <button class="single-number">
-                                        11
-                                    </button>
-                                    <button class="single-number">
-                                        12
-                                    </button>
-                                    <button class="single-number">
-                                        13
-                                    </button>
-                                    <button class="single-number">
-                                        14
-                                    </button>
-                                    <button class="single-number">
-                                        15
-                                    </button>
-                                    <button class="single-number">
-                                        16
-                                    </button>
-                                    <button class="single-number">
-                                        17
-                                    </button>
-                                    <button class="single-number">
-                                        18
-                                    </button>
-                                    <button class="single-number">
-                                        19
-                                    </button>
-                                    <button class="single-number">
-                                        20
-                                    </button>
+                                <div class="number-box winning" id="lotteryWinningAmountArray">
+
                                 </div>
-                            </div>
-                            <div class="picking-number-result">
-                                <div class="part-title">
-                                    <h3 class="title">Selected numbers:</h3>
-                                </div>
-                                <div class="result-number-palate">
-                                    <button class="single-number selected" id="4">
-                                        04
-                                    </button>
-                                    <button class="single-number selected" id="16">
-                                        16
-                                    </button>
-                                    <button class="single-number selected" id="22">
-                                        22
-                                    </button>
-                                    <button class="single-number selected" id="30">
-                                        30
-                                    </button>
-                                    <button class="single-number selected" id="38">
-                                        38
-                                    </button>
-                                    <button class="single-number selected special" id="06">
-                                        06
-                                    </button>
-                                </div>
-                                <div class="picking-number-quick-buttons">
-                                    <button class="clear-btn" id="clear-all-numbers">Clear <i class="fa-solid fa-xmark"></i></button>
-                                    <button class="auto-select-btn" id="auto-select-btn">Auto select <i class="fa-solid fa-arrows-rotate"></i></button>
-                                </div>
-                            </div>
-                            <div class="picking-number-final-step">
-                                <div class="part-text">
-                                    <p><span class="b-txt">Note :</span> Problem set compensation the harmonics, understood. Hundreds times,<br /> of until they employed sure a behind boundless their for.</p>
-                                </div>
-                                <div class="part-btn">
-                                    <a class='btn-pok' href='lotteries.html'>Continue to cart <i class="fa-solid fa-angle-right"></i></a>
-                                </div>
-                            </div>
+                                {{--<div class="number-box common">
+                                    @foreach ($lottery[0]->lotteryNumbers as $item)
+                                    <button class="single-number">
+                                        {{ $item->number }}
+                                </button>
+                                @endforeach
+                            </div>--}}
                         </div>
-                        <div class="tab-pane fade" id="pills-winners" role="tabpanel" aria-labelledby="pills-winners-tab">
-                            <div class="lottery-winners">
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-6">
-                                        <h4 class="lottery-winners-title">Most recent Winners</h4>
-                                        <div class="single-winner">
-                                            <div class="part-img">
-                                                <img src="assets/img/lottery/winner-1.jpg" alt="">
-                                            </div>
-                                            <div class="part-text">
-                                                <p><span class="user-name">Richard william</span> has won 2 minutes ago.</p>
-                                                <ul>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">Match :</span>
-                                                        <span class="ps-descr">02+</span>
-                                                    </li>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">payout :</span>
-                                                        <span class="ps-descr">$536.25</span>
-                                                    </li>
-                                                </ul>
-                                                <div class="winning-number">
-                                                    <span class="single-number selected">01</span>
-                                                    <span class="single-number selected">25</span>
-                                                    <span class="single-number selected">34</span>
-                                                    <span class="single-number selected">43</span>
-                                                    <span class="single-number selected">55</span>
-                                                    <span class="single-number selected special">02</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="single-winner">
-                                            <div class="part-img">
-                                                <img src="assets/img/lottery/winner-3.jpg" alt="">
-                                            </div>
-                                            <div class="part-text">
-                                                <p><span class="user-name">Rebecca Gaby</span> has won 13 minutes ago.</p>
-                                                <ul>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">Match :</span>
-                                                        <span class="ps-descr"> 08+</span>
-                                                    </li>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">payout :</span>
-                                                        <span class="ps-descr">$325.02</span>
-                                                    </li>
-                                                </ul>
-                                                <div class="winning-number">
-                                                    <span class="single-number selected">10</span>
-                                                    <span class="single-number selected">22</span>
-                                                    <span class="single-number selected">30</span>
-                                                    <span class="single-number selected">47</span>
-                                                    <span class="single-number selected">53</span>
-                                                    <span class="single-number selected special">10</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <h4 class="lottery-winners-title">All time top winners</h4>
-                                        <div class="single-winner">
-                                            <div class="part-img">
-                                                <img src="assets/img/lottery/winner-2.jpg" alt="">
-                                            </div>
-                                            <div class="part-text">
-                                                <p><span class="user-name">Summer Colson</span> has won 3 months ago.</p>
-                                                <ul>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">Match :</span>
-                                                        <span class="ps-descr">08+</span>
-                                                    </li>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">payout :</span>
-                                                        <span class="ps-descr">$1,965.00</span>
-                                                    </li>
-                                                </ul>
-                                                <div class="winning-number">
-                                                    <span class="single-number selected">20</span>
-                                                    <span class="single-number selected">35</span>
-                                                    <span class="single-number selected">54</span>
-                                                    <span class="single-number selected">69</span>
-                                                    <span class="single-number selected">35</span>
-                                                    <span class="single-number selected special">17</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="single-winner">
-                                            <div class="part-img">
-                                                <img src="assets/img/lottery/winner-4.jpg" alt="">
-                                            </div>
-                                            <div class="part-text">
-                                                <p><span class="user-name">Kai Dellit</span> has won 7 months ago.</p>
-                                                <ul>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">Match :</span>
-                                                        <span class="ps-descr">08+</span>
-                                                    </li>
-                                                    <li class="plaing-stats">
-                                                        <span class="ps-title">payout :</span>
-                                                        <span class="ps-descr">$2,120.25</span>
-                                                    </li>
-                                                </ul>
-                                                <div class="winning-number">
-                                                    <span class="single-number selected">36</span>
-                                                    <span class="single-number selected">21</span>
-                                                    <span class="single-number selected">76</span>
-                                                    <span class="single-number selected">54</span>
-                                                    <span class="single-number selected">77</span>
-                                                    <span class="single-number selected special">37</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="part-btn">
-                                    <a class='btn-pok' href='lotteries.html'>See full table <i class="fa-solid fa-angle-right"></i></a>
-                                </div>
+                        {{--<div class="picking-number-result">
+                            <div class="part-title">
+                                <h3 class="title">Selected numbers:</h3>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
-                            <div class="lottery-info">
-                                <div class="part-text">
-                                    <h4 class="title">What is super enaLotto?</h4>
-                                    <p>EoMillions GO! is a Quick Draw lottery-style game based on the famous European lottery.
-                                        The rules of the game are the same as those of the original lottery but the draw results are determined by a random number generator (RNG). Unlike the EuroMillions lottery with its two draws a week, EuroMillions GO! draws take place every hour, every day of the week!</p>
-                                </div>
-                                <div class="middle-part-elem">
-                                    <div class="part-info">
-                                        <div class="single-stat">
-                                            <h5 class="title">country:</h5>
-                                            <div class="country-descr">
-                                                <span class="cn-flag">
-                                                    <img src="assets/img/lottery/uk-flag.png" alt="">
-                                                </span>
-                                                <span class="stats-txt">united kingdom</span>
-                                            </div>
-                                        </div>
-                                        <div class="single-stat">
-                                            <h5 class="title">Schedule:</h5>
-                                            <ul class="stats-descr">
-                                                <li class="stats-txt">Thursday 2:59 AM UTC</li>
-                                                <li class="stats-txt">Fridat 3:19 pM UTC</li>
-                                            </ul>
-                                        </div>
-                                        <div class="single-stat">
-                                            <h5 class="title">Guess Range:</h5>
-                                            <ul class="stats-descr">
-                                                <li class="stats-txt">5/69+1/29</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="latest-winning-number">
-                                        <div class="lwn-header">
-                                            <h5 class="title">Latest Result:</h5>
-                                            <div class="date-selection">
-                                                <div class="dropdown">
-                                                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        24 apr 2022
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><a class="dropdown-item" href="#0">24 apr 2022</a></li>
-                                                        <li><a class="dropdown-item" href="#0">01 may 2022</a></li>
-                                                        <li><a class="dropdown-item" href="#0">31 june 2022</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="lwn-number-palate">
-                                            <span class="single-number selected">20</span>
-                                            <span class="single-number selected">35</span>
-                                            <span class="single-number selected">54</span>
-                                            <span class="single-number selected">69</span>
-                                            <span class="single-number selected">35</span>
-                                            <span class="single-number selected special">17</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="part-text">
-                                    <h4 class="title">How to play EuroMillions GO!</h4>
-                                    <p>EoMillions GO! is a Quick Draw lottery-style game based on the famous European lottery.
-                                        The rules of the game are the same as those of the original lottery but the draw results are determined by a random number generator (RNG). Unlike the EuroMillions lottery with its two draws a week,
-                                        EuroMillions GO! draws take place every hour, every day of the week!</p>
-                                </div>
+                            <div class="result-number-palate">
+
+                            </div>
+                            <div class="picking-number-quick-buttons">
+                                <button class="clear-btn" id="clear-all-numbers">Clear <i class="fa-solid fa-xmark"></i></button>
+                                <button class="auto-select-btn" id="auto-select-btn">Auto select <i class="fa-solid fa-arrows-rotate"></i></button>
+                            </div>
+                        </div>--}}
+                        <div class="picking-number-final-step">
+                            <div class="part-text">
+                                <p><span class="b-txt">Note :</span> Problem set compensation the harmonics,
+                                    understood. Hundreds times,<br /> of until they employed sure a behind boundless
+                                    their for.</p>
+                            </div>
+                            <div class="part-btn">
+                                <button class='btn-pok' id="continueToCart">Continue to cart <i class="fa-solid fa-angle-right"></i></button>
                             </div>
                         </div>
                     </div>
+                    {{-- <div class="tab-pane fade" id="singleLottery" role="tabpanel"
+                                aria-labelledby="pills-numbers-tab">
+                                <div class="picking-number-palate">
+                                    <div class="number-box special">
+                                        <button class="single-number">
+                                            01
+                                        </button>
+                                        <button class="single-number">
+                                            02
+                                        </button>
+                                        <button class="single-number">
+                                            03
+                                        </button>
+                                        <button class="single-number">
+                                            04
+                                        </button>
+                                        <button class="single-number">
+                                            05
+                                        </button>
+                                        <button class="single-number selected special">
+                                            06
+                                        </button>
+                                        <button class="single-number">
+                                            07
+                                        </button>
+                                        <button class="single-number">
+                                            08
+                                        </button>
+                                        <button class="single-number">
+                                            09
+                                        </button>
+                                        <button class="single-number">
+                                            10
+                                        </button>
+                                        <button class="single-number">
+                                            11
+                                        </button>
+                                        <button class="single-number">
+                                            12
+                                        </button>
+                                        <button class="single-number">
+                                            13
+                                        </button>
+                                        <button class="single-number">
+                                            14
+                                        </button>
+                                        <button class="single-number">
+                                            15
+                                        </button>
+                                        <button class="single-number">
+                                            16
+                                        </button>
+                                        <button class="single-number">
+                                            17
+                                        </button>
+                                        <button class="single-number">
+                                            18
+                                        </button>
+                                        <button class="single-number">
+                                            19
+                                        </button>
+                                        <button class="single-number">
+                                            20
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="picking-number-result">
+                                    <div class="part-title">
+                                        <h3 class="title">Selected numbers:</h3>
+                                    </div>
+                                    <div class="result-number-palate">
+                                        <button class="single-number selected" id="4">
+                                            04
+                                        </button>
+                                        <button class="single-number selected" id="16">
+                                            16
+                                        </button>
+                                        <button class="single-number selected" id="22">
+                                            22
+                                        </button>
+                                        <button class="single-number selected" id="30">
+                                            30
+                                        </button>
+                                        <button class="single-number selected" id="38">
+                                            38
+                                        </button>
+                                        <button class="single-number selected special" id="06">
+                                            06
+                                        </button>
+                                    </div>
+                                    <div class="picking-number-quick-buttons">
+                                        <button class="clear-btn" id="clear-all-numbers">Clear <i
+                                                class="fa-solid fa-xmark"></i></button>
+                                        <button class="auto-select-btn" id="auto-select-btn">Auto select <i
+                                                class="fa-solid fa-arrows-rotate"></i></button>
+                                    </div>
+                                </div>
+                                <div class="picking-number-final-step">
+                                    <div class="part-text">
+                                        <p><span class="b-txt">Note :</span> Problem set compensation the harmonics,
+                                            understood. Hundreds times,<br /> of until they employed sure a behind boundless
+                                            their for.</p>
+                                    </div>
+                                    <div class="part-btn">
+                                        <a class='btn-pok' href='lotteries.html'>Continue to cart <i
+                                                class="fa-solid fa-angle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div> --}}
                 </div>
             </div>
         </div>
@@ -563,3 +283,93 @@
 </div>
 <!-- cta end -->
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        var lottery_id = "{{ $lottery_id }}";
+        getLotteryData(lottery_id);
+    });
+    $(".single-lottery-item").on('click', function() {
+        var lottery_id = $(this).attr('lottery_id');
+        getLotteryData(lottery_id);
+
+    });
+
+
+
+    function getLotteryData(lottery_id = null) {
+        $("#set_lottery_id").val(lottery_id);
+        var url = "{{route('home.lottery_details_ajax')}}"
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: {
+                "_token": "{{csrf_token()}}",
+                "lottery_id": lottery_id,
+            },
+            success: function($result) {
+                console.log($result['lotteryWinningAmountArray'])
+                var lottery_name = $result['lottery_name'];
+                var lottery_price = $result['lottery_price'];
+                var lottery_type = $result['lottery_type'];
+                var lottery_winning_amount = $result['lottery_winning_amount'];
+                var lottery_winning_amount = $result['lottery_winning_amount'];
+                var expires_on = $result['expires_on'];
+                var expires_on_timer = $result['expires_on_timer'];
+                var lotteryNumbersArray = $result['lotteryNumbersArray'];
+                var lotteryWinningAmountArray = $result['lotteryWinningAmountArray'];
+                var lottery_image = $result['lottery_image'];
+
+                $('#lottery_name').html(lottery_name);
+                $('#lottery_price').html(lottery_price);
+                $('#lottery_image').attr('src', lottery_image);
+                $('#expires_on').html("Lottery open at : " + expires_on);
+                $('#lotteryNumbersArray').html(lotteryNumbersArray);
+                $('#lotteryWinningAmountArray').html(lotteryWinningAmountArray);
+                setDateForTimer(expires_on_timer);
+            }
+        })
+    }
+</script>
+
+<script>
+    var countdown; // Declare a global variable to store the interval ID
+
+    function setDateForTimer(expires_on_timer) {
+
+        // Clear any existing interval to avoid multiple timers running simultaneously
+        if (countdown) {
+            clearInterval(countdown);
+        }
+        // Set the target date and time
+        var targetDate = new Date(expires_on_timer).getTime();
+
+        // Update the countdown every second
+        countdown = setInterval(function() {
+            // console.log('expires_on_timer=' + expires_on_timer);
+            // console.log('targetDate=' + targetDate);
+            // Get current date and time
+            var now = new Date().getTime();
+
+            // Calculate the time difference between now and the target date
+            var remainingTime = targetDate - now;
+            // console.log('remainingTime=' + remainingTime);
+            // Calculate days, hours, minutes, and seconds
+            var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+            // Display the result in the "timer" element
+            document.getElementById("multiTimer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+            // If the countdown is over, display a message and clear the interval
+            if (remainingTime < 0) {
+                clearInterval(countdown);
+                document.getElementById("multiTimer").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    }
+</script>
+@endpush

@@ -204,10 +204,31 @@ class LotteryController extends Controller
             NotificationHelper::errorResponse("Lottery not found!");
             return redirect()->route('admin.lottery.index');
         }
-        $chosenNumbers = DB::table('user_chosen_numbers')
-            ->join('users', 'users.id', '=', 'user_chosen_numbers.user_id')
-            ->select('user_chosen_numbers.*', 'users.name')
-            ->get();
-        return view('backend.lottery.showChosenNumbers', compact('lottery', 'chosenNumbers'));
+
+        $cartItemByLotteryId = Cart::where('lottery_id', $lotteryId)->get();
+        // dd($cartItemByLotteryId);
+        // $numberCounts = []; // To store the frequency of each number
+
+        // Loop through each record
+        // foreach ($cartItemByLotteryId as $record) {
+        //     // Convert the string of lottery numbers into an array of integers
+        //     $numbers = array_map('intval', explode(',', $record['checked_lottery_numbers']));
+
+        //     // Count the occurrences of each number
+        //     foreach ($numbers as $number) {
+        //         if (isset($numberCounts[$number])) {
+        //             $numberCounts[$number]++;
+        //         } else {
+        //             $numberCounts[$number] = 1;
+        //         }
+        //     }
+        // }
+
+        // dd($numberCounts);
+        // $chosenNumbers = DB::table('user_chosen_numbers')
+        //     ->join('users', 'users.id', '=', 'user_chosen_numbers.user_id')
+        //     ->select('user_chosen_numbers.*', 'users.name')
+        //     ->get();
+        return view('backend.lottery.showChosenNumbers', compact('lottery', 'cartItemByLotteryId'));
     }
 }
