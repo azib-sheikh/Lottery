@@ -92,7 +92,7 @@ if ($lottery->isNotEmpty()) {
                         <div class="part-text">
                             {{--<span class="lottery-name">{{ $lottery->lotteryMaster->lottery_name }}</span>--}}
                             <span class="lottery-name" id="lottery_name"></span>
-                            <span class="estimate-prize">Estimated prize : <span class="prize-amount" id="lottery_price">00</span></span>
+                            <span class="estimate-prize">Our recent Winners: <span class="prize-amount" id="lottery_price">01</span></span>
                         </div>
                     </div>
                     <div class="cd-wrapper">
@@ -107,156 +107,34 @@ if ($lottery->isNotEmpty()) {
                         </ul>
                     </div> --}}
                 </div>
-                <div class="picking-number-body">
-                    <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-numbers" role="tabpanel" aria-labelledby="pills-numbers-tab">
-                            <div class="picking-number-palate">
-                                <div class="number-box common" id="lotteryNumbersArray">
-
-                                </div>
-                                <div class="number-box winning" id="lotteryWinningAmountArray">
-
-                                </div>
-                                {{--<div class="number-box common">
-                                    @foreach ($lottery[0]->lotteryNumbers as $item)
-                                    <button class="single-number">
-                                        {{ $item->number }}
-                                </button>
-                                @endforeach
-                            </div>--}}
-                        </div>
-                        {{--<div class="picking-number-result">
-                            <div class="part-title">
-                                <h3 class="title">Selected numbers:</h3>
-                            </div>
-                            <div class="result-number-palate">
-
-                            </div>
-                            <div class="picking-number-quick-buttons">
-                                <button class="clear-btn" id="clear-all-numbers">Clear <i class="fa-solid fa-xmark"></i></button>
-                                <button class="auto-select-btn" id="auto-select-btn">Auto select <i class="fa-solid fa-arrows-rotate"></i></button>
-                            </div>
-                        </div>--}}
-                        <div class="picking-number-final-step">
-                            <div class="part-text">
-                                <p><span class="b-txt">Note :</span> Problem set compensation the harmonics,
-                                    understood. Hundreds times,<br /> of until they employed sure a behind boundless
-                                    their for.</p>
-                            </div>
-                            <div class="part-btn">
-                                <button class='btn-pok' id="continueToCart">Continue to cart <i class="fa-solid fa-angle-right"></i></button>
-                            </div>
-                        </div>
+                
+        </div>
+        <div class="container">
+            <div class="winners-tab my-4">
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div class="row winners-box">
+                        <div class="col-4">
+                        <img class="prof-img" src="{{ asset('assets/img/lottery/lottery-header-right-img.png') }}" alt="">
                     </div>
-                    {{-- <div class="tab-pane fade" id="singleLottery" role="tabpanel"
-                                aria-labelledby="pills-numbers-tab">
-                                <div class="picking-number-palate">
-                                    <div class="number-box special">
-                                        <button class="single-number">
-                                            01
-                                        </button>
-                                        <button class="single-number">
-                                            02
-                                        </button>
-                                        <button class="single-number">
-                                            03
-                                        </button>
-                                        <button class="single-number">
-                                            04
-                                        </button>
-                                        <button class="single-number">
-                                            05
-                                        </button>
-                                        <button class="single-number selected special">
-                                            06
-                                        </button>
-                                        <button class="single-number">
-                                            07
-                                        </button>
-                                        <button class="single-number">
-                                            08
-                                        </button>
-                                        <button class="single-number">
-                                            09
-                                        </button>
-                                        <button class="single-number">
-                                            10
-                                        </button>
-                                        <button class="single-number">
-                                            11
-                                        </button>
-                                        <button class="single-number">
-                                            12
-                                        </button>
-                                        <button class="single-number">
-                                            13
-                                        </button>
-                                        <button class="single-number">
-                                            14
-                                        </button>
-                                        <button class="single-number">
-                                            15
-                                        </button>
-                                        <button class="single-number">
-                                            16
-                                        </button>
-                                        <button class="single-number">
-                                            17
-                                        </button>
-                                        <button class="single-number">
-                                            18
-                                        </button>
-                                        <button class="single-number">
-                                            19
-                                        </button>
-                                        <button class="single-number">
-                                            20
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="picking-number-result">
-                                    <div class="part-title">
-                                        <h3 class="title">Selected numbers:</h3>
-                                    </div>
-                                    <div class="result-number-palate">
-                                        <button class="single-number selected" id="4">
-                                            04
-                                        </button>
-                                        <button class="single-number selected" id="16">
-                                            16
-                                        </button>
-                                        <button class="single-number selected" id="22">
-                                            22
-                                        </button>
-                                        <button class="single-number selected" id="30">
-                                            30
-                                        </button>
-                                        <button class="single-number selected" id="38">
-                                            38
-                                        </button>
-                                        <button class="single-number selected special" id="06">
-                                            06
-                                        </button>
-                                    </div>
-                                    <div class="picking-number-quick-buttons">
-                                        <button class="clear-btn" id="clear-all-numbers">Clear <i
-                                                class="fa-solid fa-xmark"></i></button>
-                                        <button class="auto-select-btn" id="auto-select-btn">Auto select <i
-                                                class="fa-solid fa-arrows-rotate"></i></button>
-                                    </div>
-                                </div>
-                                <div class="picking-number-final-step">
-                                    <div class="part-text">
-                                        <p><span class="b-txt">Note :</span> Problem set compensation the harmonics,
-                                            understood. Hundreds times,<br /> of until they employed sure a behind boundless
-                                            their for.</p>
-                                    </div>
-                                    <div class="part-btn">
-                                        <a class='btn-pok' href='lotteries.html'>Continue to cart <i
-                                                class="fa-solid fa-angle-right"></i></a>
-                                    </div>
-                                </div>
-                            </div> --}}
+                    <div class="col-8">
+                        <p class="title">name</p>
+                        <p>Lottery name</p>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="row winners-box">
+                        <div class="col-4">
+                        <img class="prof-img" src="{{ asset('assets/img/lottery/lottery-header-right-img.png') }}" alt="">
+                    </div>
+                    <div class="col-8">
+                        <p class="title">name</p>
+                        <p>Lottery name</p>
+                    </div>
+                    </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -283,7 +161,22 @@ if ($lottery->isNotEmpty()) {
 </div>
 <!-- cta end -->
 @endsection
-
+@section('css')
+<style>
+    .prof-img {
+    border: 1px solid #ccc;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.winners-box{
+    border: 1px solid #ccc4;
+    padding: 10px;
+    box-shadow: 0px 0px 15px #ccc;
+    border-radius: 10px;
+    margin: 10px 0px}
+</style>
+@endsection
 @push('scripts')
 <script>
     $(document).ready(function() {
