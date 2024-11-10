@@ -15,7 +15,7 @@
                     <h1 class="text-center">Lottery Numbers</h1>
                 </div>
                 <div class="card-body text-center">
-                    <p id="lottery_master"><b>Lottery Master:</b> {{ $lottery->lotteryMaster->lottery_name }}</p>
+                    <p id="lottery_master"><b>Lottery Master:</b> <a href="{{route('admin.lottery.showChosenNumbers', ['lotteryId' => $lottery->id])}}">{{ $lottery->lotteryMaster->lottery_name }}</a></p>
                     <p><b>Lottery Opens at:</b> {{ $lottery->expires_on }}</p>
                 </div>
             </div>

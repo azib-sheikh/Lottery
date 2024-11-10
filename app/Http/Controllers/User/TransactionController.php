@@ -97,6 +97,9 @@ class TransactionController extends Controller
                 $status = '4';
                 $rzp_payment_error_response = $request->rzp_payment_error_response;
             } else {
+                $userWallet = $user['walletBalance'] + $amount;
+                $updatUserData['walletBalance'] =  $userWallet;
+                User::where('id', $user['id'])->update($updatUserData);
                 $status = '1';
             }
         } else {
